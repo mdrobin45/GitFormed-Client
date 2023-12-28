@@ -5,7 +5,6 @@ import {
    signInWithEmailAndPassword,
    signInWithPopup,
    signOut,
-   updateProfile,
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import auth from "../Configuration/firebase.config";
@@ -28,12 +27,6 @@ const AuthContextProvider = ({ children }) => {
    const loginWithEmailPassword = (email, password) => {
       setIsLoading(true);
       return signInWithEmailAndPassword(auth, email, password);
-   };
-
-   // Update profile
-   const profileUpdate = (userInfo) => {
-      setIsLoading(true);
-      return updateProfile(auth.currentUser, userInfo);
    };
 
    // Google signIn
@@ -63,7 +56,6 @@ const AuthContextProvider = ({ children }) => {
       user,
       logOut,
       isLoading,
-      profileUpdate,
       loginWithGoogle,
       registerWithEmailPassword,
       loginWithEmailPassword,
