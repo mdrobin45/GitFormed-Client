@@ -14,7 +14,7 @@ import useAuth from "../../Hooks/useAuth";
 const ProfileMenu = () => {
    const [isMenuOpen, setIsMenuOpen] = useState(false);
    const closeMenu = () => setIsMenuOpen(false);
-   const { logOut, user } = useAuth();
+   const { logOut } = useAuth();
 
    // Logout
    const handleLogOut = () => {
@@ -35,9 +35,7 @@ const ProfileMenu = () => {
                   size="sm"
                   alt="tania andrew"
                   className="border border-gray-900 p-0.5"
-                  src={
-                     user ? user.photoURL : "https://i.ibb.co/238dYyx/user.png"
-                  }
+                  src="https://i.ibb.co/238dYyx/user.png"
                />
             </Button>
          </MenuHandler>

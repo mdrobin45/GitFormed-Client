@@ -18,7 +18,7 @@ const useRegister = () => {
       // Initialize tost message
       const toastMsg = toast.loading("");
       toast.update(toastMsg, {
-         render: "Please wait...",
+         render: "In Progress...",
          isLoading: true,
       });
 
@@ -38,7 +38,7 @@ const useRegister = () => {
 
                      // Show toast after successful registration
                      toast.update(toastMsg, {
-                        render: "Registration Successful!",
+                        render: "Done",
                         type: "success",
                         isLoading: false,
                      });

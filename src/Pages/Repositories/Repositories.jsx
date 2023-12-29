@@ -7,6 +7,7 @@ import {
    Typography,
 } from "@material-tailwind/react";
 import ProfileMenu from "./ProfileMenu";
+import styles from "./styles.module.css";
 
 const TABLE_HEAD = ["Name", "Job", "Employed", ""];
 const TABLE_ROWS = [
@@ -63,8 +64,8 @@ const TABLE_ROWS = [
 ];
 const Repositories = () => {
    return (
-      <div className="w-3/4 rounded mx-auto mt-32">
-         <div className="flex items-center justify-between">
+      <div className={styles.repoMainWrapper}>
+         <div className={styles.repoToolbarWrapper}>
             <div>
                <Select variant="outlined" label="Repositories to Show">
                   <Option>My Repositories</Option>
@@ -84,26 +85,22 @@ const Repositories = () => {
                <label htmlFor="myWatch">My Watching Repositories</label>
             </div>
             <div>
-               <Button className="bg-primary capitalize font-normal text-md py-2">
-                  New Repository
-               </Button>
+               <Button className={styles.newRepoBtn}>New Repository</Button>
             </div>
             <div>
                <ProfileMenu />
             </div>
          </div>
-         <Card className="h-full mt-4">
-            <table className="w-full min-w-max table-auto text-left">
+         <Card className={styles.tableWrapper}>
+            <table className={styles.repoTable}>
                <thead>
-                  <tr className="rounded-lg">
+                  <tr className={styles.tableRow}>
                      {TABLE_HEAD.map((head) => (
-                        <th
-                           key={head}
-                           className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
+                        <th key={head} className={styles.tableHeader}>
                            <Typography
                               variant="small"
                               color="blue-gray"
-                              className="font-normal leading-none opacity-70">
+                              className={styles.tableHeadingText}>
                               {head}
                            </Typography>
                         </th>

@@ -1,0 +1,27 @@
+/* Repositories top toolbar */
+.repoMainWrapper {
+   @apply w-3/4 rounded mx-auto mt-32;
+}
+.repoToolbarWrapper {
+   @apply flex items-center justify-between;
+}
+.newRepoBtn {
+   @apply bg-primary capitalize text-base font-normal py-2 !important;
+}
+
+/* Repositories table */
+.tableWrapper {
+   @apply h-full mt-4;
+}
+.repoTable {
+   @apply w-full min-w-max table-auto text-left;
+}
+.tableRow {
+   @apply rounded-lg;
+}
+.tableHeader {
+   @apply border-b border-blue-gray-100 bg-blue-gray-50 p-4;
+}
+.tableHeadingText {
+   @apply font-normal leading-none opacity-70;
+}
