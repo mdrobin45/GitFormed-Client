@@ -4,12 +4,18 @@ import useAuth from "./useAuth";
 
 const useUserRepo = () => {
    const { user } = useAuth();
-   const { isPending, data: userRepos = [] } = useQuery({
+   let {
+      isPending,
+      refetch,
+      data: userRepos = [],
+   } = useQuery({
       queryKey: ["userRepos"],
       queryFn: () => getRepoByUser(user?.email),
    });
 
-   return { userRepos, isPending };
+   userRepos = userRepos.toReversed();
+
+   return { userRepos, isPending, refetch };
 };
 
 export default useUserRepo;

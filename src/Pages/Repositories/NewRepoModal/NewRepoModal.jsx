@@ -11,10 +11,14 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { createNewRepo, findRepo } from "../../../APIs/APIs";
 import useAuth from "../../../Hooks/useAuth";
+import useRepositories from "../../../Hooks/useRepositories";
 import useUser from "../../../Hooks/useUser";
+import useUserRepo from "../../../Hooks/useUserRepo";
 import { showToast } from "../../../Utilities/toast";
 
 const NewRepoModal = ({ handleOpen, open }) => {
+   const { refetch } = useUserRepo();
+   const { refetchAllRepo } = useRepositories();
    const [inputErr, setInputErr] = useState("");
    const { user } = useAuth();
    const { dbUser } = useUser();
@@ -40,6 +44,8 @@ const NewRepoModal = ({ handleOpen, open }) => {
                if (res.id) {
                   showToast("Repository Created", "success");
                   handleOpen();
+                  refetch();
+                  refetchAllRepo();
                   reset();
                }
             });
