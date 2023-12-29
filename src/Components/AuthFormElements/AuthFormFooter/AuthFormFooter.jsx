@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import styles from "../styles.module.css";
 
 const AuthFormFooter = ({ loginPage, registerPage }) => {
    return (
@@ -7,9 +8,7 @@ const AuthFormFooter = ({ loginPage, registerPage }) => {
             {registerPage && (
                <>
                   <span>Already have an account? Please login </span>
-                  <Link
-                     className="text-primary font-semibold underline"
-                     to="/login">
+                  <Link className={styles.formFooterLink} to="/login">
                      Here
                   </Link>
                </>
@@ -17,9 +16,7 @@ const AuthFormFooter = ({ loginPage, registerPage }) => {
             {loginPage && (
                <>
                   <span>{`Don't have an account? Please register`} </span>
-                  <Link
-                     className="text-primary font-semibold underline"
-                     to="/register">
+                  <Link className={styles.formFooterLink} to="/register">
                      Here
                   </Link>
                </>

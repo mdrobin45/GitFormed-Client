@@ -1,7 +1,9 @@
+import styles from "../styles.module.css";
+
 const AuthFormHeader = ({ heading }) => {
    return (
       <div>
-         <h2 className="text-2xl px-6 pt-3 pb-3 font-bold">{heading}</h2>
+         <h2 className={styles.formHeading}>{heading}</h2>
          <hr />
       </div>
    );
