@@ -1,0 +1,23 @@
+.sectionWrapper {
+   @apply h-screen flex items-start justify-center flex-col;
+}
+.formWrapper {
+   @apply mx-auto w-[26rem] border rounded-md shadow-md;
+}
+.form {
+   @apply w-full px-6;
+}
+.inputWrapper {
+   @apply my-3;
+}
+.inputLabel {
+   @apply block mb-2 text-sm font-medium text-gray-900;
+}
+.input {
+   @apply bg-gray-50
+   border-gray-300 border-2 text-gray-900 text-sm rounded-lg
+   focus:border-secondary focus:outline-none block w-full p-2.5;
+}
+.passwordFieldWrapper {
+   @apply absolute inset-y-0 p-3 right-0 flex items-center pl-3.5;
+}

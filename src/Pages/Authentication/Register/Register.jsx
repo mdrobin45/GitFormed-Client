@@ -3,6 +3,7 @@ import AuthFormFooter from "../../../Components/AuthFormElements/AuthFormFooter/
 import AuthFormHeader from "../../../Components/AuthFormElements/AuthFormHeader/AuthFormHeader";
 import GoogleLogin from "../../../Components/AuthFormElements/SocialLogin/GoogleLogin";
 import SubmitButton from "../../../Components/AuthFormElements/SubmitButton";
+import styles from "./styles.module.css";
 import useRegister from "./useRegister";
 
 const RegisterForm = () => {
@@ -14,14 +15,12 @@ const RegisterForm = () => {
       setShowPassword(!showPassword);
    };
    return (
-      <div className="h-screen flex items-start justify-center flex-col">
-         <div className="mx-auto w-[26rem] border rounded-md shadow-md">
+      <div className={styles.sectionWrapper}>
+         <div className={styles.formWrapper}>
             <AuthFormHeader heading="Create an Account" />
-            <form onSubmit={handleSubmit(onSubmit)} className="w-full px-6">
-               <div className="my-3">
-                  <label
-                     htmlFor="Username"
-                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+               <div className={styles.inputWrapper}>
+                  <label htmlFor="Username" className={styles.inputLabel}>
                      Username
                   </label>
                   <input
@@ -30,12 +29,7 @@ const RegisterForm = () => {
                      })}
                      type="text"
                      id="Username"
-                     className="bg-gray-50
-                  border-gray-300 border-2 text-gray-900 text-sm rounded-lg
-                  focus:border-secondary focus:outline-none block w-full p-2.5
-                  dark:bg-gray-700 dark:border-gray-600
-                  dark:placeholder-gray-400 dark:text-white
-                  dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                     className={styles.input}
                      required
                   />
                   {errors.username ? (
@@ -46,10 +40,8 @@ const RegisterForm = () => {
                      " "
                   )}
                </div>
-               <div className="my-3">
-                  <label
-                     htmlFor="Email"
-                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+               <div className={styles.inputWrapper}>
+                  <label htmlFor="Email" className={styles.inputLabel}>
                      Email
                   </label>
                   <input
@@ -62,12 +54,7 @@ const RegisterForm = () => {
                      })}
                      type="email"
                      id="Email"
-                     className="bg-gray-50
-                  border-gray-300 border-2 text-gray-900 text-sm rounded-lg
-                  focus:border-secondary focus:outline-none block w-full p-2.5
-                  dark:bg-gray-700 dark:border-gray-600
-                  dark:placeholder-gray-400 dark:text-white
-                  dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                     className={styles.input}
                      required
                   />
                   {errors.email ? (
@@ -78,10 +65,8 @@ const RegisterForm = () => {
                      " "
                   )}
                </div>
-               <div className="my-3">
-                  <label
-                     htmlFor="password"
-                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+               <div className={styles.inputWrapper}>
+                  <label htmlFor="password" className={styles.inputLabel}>
                      Password
                   </label>
                   <div className="relative">
@@ -96,12 +81,12 @@ const RegisterForm = () => {
                         })}
                         id="password"
                         type={`${showPassword ? "text" : "password"}`}
-                        className="bg-gray-50 border-gray-300 border-2 text-gray-900 text-sm rounded-lg focus:border-secondary focus:outline-none block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        className={styles.input}
                         required
                      />
                      <div
                         onClick={showHideHandler}
-                        className="absolute inset-y-0 p-3 right-0 flex items-center pl-3.5">
+                        className={styles.passwordFieldWrapper}>
                         {showPassword ? (
                            <svg
                               onClick={showHideHandler}
