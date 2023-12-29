@@ -28,9 +28,10 @@ const useRegister = () => {
             if (result.user) {
                // Save user to database
                const userInfo = {
+                  username: data.username,
                   email: result.user?.email,
                };
-               saveUserToDB(userInfo);
+               saveUserToDB(userInfo).then((res) => console.log(res));
 
                // Show toast after successful registration
                toast.update(toastMsg, {
