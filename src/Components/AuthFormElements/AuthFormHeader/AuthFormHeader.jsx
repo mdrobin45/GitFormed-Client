@@ -10,7 +10,6 @@ const AuthFormHeader = ({ heading }) => {
                Back to Home
             </Link>
          </div>
-
          <hr />
       </div>
    );

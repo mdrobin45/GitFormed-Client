@@ -3,6 +3,8 @@ import MainLayout from "../Layouts/MainLayout";
 import Login from "../Pages/Authentication/Login/Login";
 import Register from "../Pages/Authentication/Register/Register";
 import Home from "../Pages/Home/Home";
+import Repositories from "../Pages/Repositories/Repositories";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
    {
@@ -11,9 +13,17 @@ const router = createBrowserRouter([
       children: [
          {
             path: "/",
-            element: <Home />,
+            element: (
+               <PrivateRoute>
+                  <Repositories />
+               </PrivateRoute>
+            ),
          },
       ],
+   },
+   {
+      path: "/home",
+      element: <Home />,
    },
    {
       path: "/login",
@@ -25,5 +35,4 @@ const router = createBrowserRouter([
    },
 ]);
 
-// Export routers
 export default router;
