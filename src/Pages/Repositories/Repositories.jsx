@@ -7,66 +7,68 @@ import {
    Typography,
 } from "@material-tailwind/react";
 import { useState } from "react";
+import useRepositories from "../../Hooks/useRepositories";
 import NewRepoModal from "./NewRepoModal/NewRepoModal";
 import ProfileMenu from "./ProfileMenu";
 import styles from "./styles.module.css";
 
-const TABLE_HEAD = ["Name", "Job", "Employed", ""];
-const TABLE_ROWS = [
-   {
-      name: "John Michael",
-      job: "Manager",
-      date: "23/04/18",
-   },
-   {
-      name: "Alexa Liras",
-      job: "Developer",
-      date: "23/04/18",
-   },
-   {
-      name: "Laurent Perrier",
-      job: "Executive",
-      date: "19/09/17",
-   },
-   {
-      name: "Michael Levi",
-      job: "Developer",
-      date: "24/12/08",
-   },
-   {
-      name: "Richard Gran",
-      job: "Manager",
-      date: "04/10/21",
-   },
-   {
-      name: "Richard Gran",
-      job: "Manager",
-      date: "04/10/21",
-   },
-   {
-      name: "Richard Gran",
-      job: "Manager",
-      date: "04/10/21",
-   },
-   {
-      name: "Richard Gran",
-      job: "Manager",
-      date: "04/10/21",
-   },
-   {
-      name: "Richard Gran",
-      job: "Manager",
-      date: "04/10/21",
-   },
-   {
-      name: "Richard Gran",
-      job: "Manager",
-      date: "04/10/21",
-   },
-];
+const TABLE_HEAD = ["Repository", "Username", "Watchers", "Created"];
+// const TABLE_ROWS = [
+//    {
+//       name: "John Michael",
+//       job: "Manager",
+//       date: "23/04/18",
+//    },
+//    {
+//       name: "Alexa Liras",
+//       job: "Developer",
+//       date: "23/04/18",
+//    },
+//    {
+//       name: "Laurent Perrier",
+//       job: "Executive",
+//       date: "19/09/17",
+//    },
+//    {
+//       name: "Michael Levi",
+//       job: "Developer",
+//       date: "24/12/08",
+//    },
+//    {
+//       name: "Richard Gran",
+//       job: "Manager",
+//       date: "04/10/21",
+//    },
+//    {
+//       name: "Richard Gran",
+//       job: "Manager",
+//       date: "04/10/21",
+//    },
+//    {
+//       name: "Richard Gran",
+//       job: "Manager",
+//       date: "04/10/21",
+//    },
+//    {
+//       name: "Richard Gran",
+//       job: "Manager",
+//       date: "04/10/21",
+//    },
+//    {
+//       name: "Richard Gran",
+//       job: "Manager",
+//       date: "04/10/21",
+//    },
+//    {
+//       name: "Richard Gran",
+//       job: "Manager",
+//       date: "04/10/21",
+//    },
+// ];
 const Repositories = () => {
    const [modalOpen, setModalOpen] = useState(false);
    const handleOpen = () => setModalOpen(!modalOpen);
+   const { repositories, isPending } = useRepositories();
 
    return (
       <div className={styles.repoMainWrapper}>
@@ -115,20 +117,20 @@ const Repositories = () => {
                   </tr>
                </thead>
                <tbody>
-                  {TABLE_ROWS.map(({ name, job, date }, index) => {
-                     const isLast = index === TABLE_ROWS.length - 1;
+                  {repositories.map((repo, index) => {
+                     const isLast = index === repositories.length - 1;
                      const classes = isLast
                         ? "p-4"
                         : "p-4 border-b border-blue-gray-50";
 
                      return (
-                        <tr key={name}>
+                        <tr key={repo._id}>
                            <td className={classes}>
                               <Typography
                                  variant="small"
                                  color="blue-gray"
                                  className="font-normal">
-                                 {name}
+                                 {repo.repoName}
                               </Typography>
                            </td>
                            <td className={classes}>
@@ -136,7 +138,7 @@ const Repositories = () => {
                                  variant="small"
                                  color="blue-gray"
                                  className="font-normal">
-                                 {job}
+                                 {repo.repoUsername}
                               </Typography>
                            </td>
                            <td className={classes}>
@@ -144,7 +146,8 @@ const Repositories = () => {
                                  variant="small"
                                  color="blue-gray"
                                  className="font-normal">
-                                 {date}
+                                 {/* {repo.repoWatchers} */}
+                                 10
                               </Typography>
                            </td>
                            <td className={classes}>

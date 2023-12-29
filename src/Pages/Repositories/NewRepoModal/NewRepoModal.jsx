@@ -11,11 +11,13 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { createNewRepo, findRepo } from "../../../APIs/APIs";
 import useAuth from "../../../Hooks/useAuth";
+import useUser from "../../../Hooks/useUser";
 import { showToast } from "../../../Utilities/toast";
 
 const NewRepoModal = ({ handleOpen, open }) => {
    const [inputErr, setInputErr] = useState("");
    const { user } = useAuth();
+   const { dbUser } = useUser();
    const {
       register,
       handleSubmit,
@@ -27,6 +29,7 @@ const NewRepoModal = ({ handleOpen, open }) => {
    const onSubmit = (data) => {
       const repoInfo = {
          repoName: data.repoName,
+         repoUsername: dbUser.username,
          repoUserEmail: user?.email,
       };
 
@@ -45,7 +48,6 @@ const NewRepoModal = ({ handleOpen, open }) => {
          }
       });
    };
-   console.log(errors);
    return (
       <Dialog open={open} size="xs" handler={handleOpen}>
          <div className="flex items-center justify-between">

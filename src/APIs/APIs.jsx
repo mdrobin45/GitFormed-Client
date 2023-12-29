@@ -29,3 +29,15 @@ export const findRepo = async (repoName, email) => {
    );
    return data;
 };
+
+// Get all repositories
+export const getRepositories = async () => {
+   const { data } = await axiosRequest.get("/repositories");
+   return data;
+};
+
+// Retrieve user from DB
+export const getUser = async (email) => {
+   const { data } = await axiosRequest.get(`/user/${email}`);
+   return data;
+};
