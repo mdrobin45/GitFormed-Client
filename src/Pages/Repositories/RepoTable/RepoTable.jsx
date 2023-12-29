@@ -1,10 +1,8 @@
 import { Typography } from "@material-tailwind/react";
-import useRepositories from "../../../Hooks/useRepositories";
 import styles from "../styles.module.css";
 
 const TABLE_HEAD = ["Repository", "Username", "Watchers", "Created"];
-const RepoTable = () => {
-   const { repositories } = useRepositories();
+const RepoTable = ({ repositories }) => {
    return (
       <table className={styles.repoTable}>
          <thead>

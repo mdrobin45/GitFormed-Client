@@ -16,9 +16,9 @@ export const saveUserToDB = async (userInfo) => {
    return data;
 };
 
-// Create new repository
-export const createNewRepo = async (repoInfo) => {
-   const { data } = await axiosRequest.post("/repositories", repoInfo);
+// Retrieve user from DB
+export const getUser = async (email) => {
+   const { data } = await axiosRequest.get(`/user/${email}`);
    return data;
 };
 
@@ -30,14 +30,20 @@ export const findRepo = async (repoName, email) => {
    return data;
 };
 
+// Create new repository
+export const createNewRepo = async (repoInfo) => {
+   const { data } = await axiosRequest.post("/repositories", repoInfo);
+   return data;
+};
+
 // Get all repositories
 export const getRepositories = async () => {
    const { data } = await axiosRequest.get("/repositories");
    return data;
 };
 
-// Retrieve user from DB
-export const getUser = async (email) => {
-   const { data } = await axiosRequest.get(`/user/${email}`);
+// Get repos by user email
+export const getRepoByUser = async (email) => {
+   const { data } = await axiosRequest.get(`/repositories/user?email=${email}`);
    return data;
 };
