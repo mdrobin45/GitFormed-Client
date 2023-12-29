@@ -1,6 +1,6 @@
 /* Repositories top toolbar */
 .repoMainWrapper {
-   @apply w-3/4 rounded mx-auto mt-32;
+   @apply w-3/4 rounded mx-auto my-24;
 }
 .repoToolbarWrapper {
    @apply flex items-center justify-between;
