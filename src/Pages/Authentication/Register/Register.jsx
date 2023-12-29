@@ -3,7 +3,7 @@ import AuthFormFooter from "../../../Components/AuthFormElements/AuthFormFooter/
 import AuthFormHeader from "../../../Components/AuthFormElements/AuthFormHeader/AuthFormHeader";
 import GoogleLogin from "../../../Components/AuthFormElements/SocialLogin/GoogleLogin";
 import SubmitButton from "../../../Components/AuthFormElements/SubmitButton";
-import styles from "./styles.module.css";
+import styles from "../styles.module.css";
 import useRegister from "./useRegister";
 
 const RegisterForm = () => {
@@ -122,9 +122,16 @@ const RegisterForm = () => {
                            </svg>
                         )}
                      </div>
+                     {errors.password ? (
+                        <p className="text-sm text-red-500">
+                           {errors.password.message}
+                        </p>
+                     ) : (
+                        ""
+                     )}
                   </div>
                </div>
-               <SubmitButton btnText="Sign Up" />
+               <SubmitButton btnText="Register" />
                <GoogleLogin />
             </form>
             <AuthFormFooter registerPage={true} />

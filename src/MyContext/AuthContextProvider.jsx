@@ -52,6 +52,7 @@ const AuthContextProvider = ({ children }) => {
       };
    }, []);
 
+   console.log(user);
    const authInfo = {
       user,
       logOut,
