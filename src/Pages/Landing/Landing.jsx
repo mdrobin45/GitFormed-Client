@@ -1,6 +1,6 @@
 import Banner from "./Banner/Banner";
 
-const Home = () => {
+const Landing = () => {
    return (
       <div>
          <Banner />
@@ -8,4 +8,4 @@ const Home = () => {
    );
 };
 
-export default Home;
+export default Landing;
