@@ -21,3 +21,11 @@ export const createNewRepo = async (repoInfo) => {
    const { data } = await axiosRequest.post("/repositories", repoInfo);
    return data;
 };
+
+// Check if repo is already exist
+export const findRepo = async (repoName, email) => {
+   const { data } = await axiosRequest.get(
+      `/repositories/find?repoName=${repoName}&email=${email}`
+   );
+   return data;
+};

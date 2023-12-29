@@ -7,12 +7,14 @@ import {
    Input,
    Typography,
 } from "@material-tailwind/react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { createNewRepo } from "../../../APIs/APIs";
+import { createNewRepo, findRepo } from "../../../APIs/APIs";
 import useAuth from "../../../Hooks/useAuth";
 import { showToast } from "../../../Utilities/toast";
 
 const NewRepoModal = ({ handleOpen, open }) => {
+   const [inputErr, setInputErr] = useState("");
    const { user } = useAuth();
    const {
       register,
@@ -27,11 +29,19 @@ const NewRepoModal = ({ handleOpen, open }) => {
          repoName: data.repoName,
          repoUserEmail: user?.email,
       };
-      createNewRepo(repoInfo).then((res) => {
-         if (res.id) {
-            showToast("Repository Created", "success");
-            handleOpen();
-            reset();
+
+      // Check if repo already exist before create new one
+      findRepo(data.repoName, user?.email).then((res) => {
+         if (!res.exist) {
+            createNewRepo(repoInfo).then((res) => {
+               if (res.id) {
+                  showToast("Repository Created", "success");
+                  handleOpen();
+                  reset();
+               }
+            });
+         } else {
+            setInputErr("Repository already exist! Please try another");
          }
       });
    };
@@ -85,6 +95,7 @@ const NewRepoModal = ({ handleOpen, open }) => {
                   ) : (
                      ""
                   )}
+                  <p className="text-sm text-red-500">{inputErr}</p>
                </div>
             </DialogBody>
             <DialogFooter className="space-x-2">
