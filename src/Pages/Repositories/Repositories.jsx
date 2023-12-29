@@ -6,6 +6,8 @@ import {
    Select,
    Typography,
 } from "@material-tailwind/react";
+import { useState } from "react";
+import NewRepoModal from "./NewRepoModal/NewRepoModal";
 import ProfileMenu from "./ProfileMenu";
 import styles from "./styles.module.css";
 
@@ -63,6 +65,9 @@ const TABLE_ROWS = [
    },
 ];
 const Repositories = () => {
+   const [modalOpen, setModalOpen] = useState(false);
+   const handleOpen = () => setModalOpen(!modalOpen);
+
    return (
       <div className={styles.repoMainWrapper}>
          <div className={styles.repoToolbarWrapper}>
@@ -79,13 +84,15 @@ const Repositories = () => {
                   <Option>watchers</Option>
                </Select>
             </div>
-
             <div className="flex items-center">
                <Checkbox id="myWatch" color="blue" defaultChecked />
                <label htmlFor="myWatch">My Watching Repositories</label>
             </div>
             <div>
-               <Button className={styles.newRepoBtn}>New Repository</Button>
+               <Button onClick={handleOpen} className={styles.newRepoBtn}>
+                  New Repository
+               </Button>
+               <NewRepoModal open={modalOpen} handleOpen={handleOpen} />
             </div>
             <div>
                <ProfileMenu />
