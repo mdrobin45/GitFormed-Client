@@ -99,12 +99,22 @@ const RepoTable = ({ repositories = [] }) => {
                               </Link>
                            )}
                            <div className="flex items-center">
-                              <Checkbox
-                                 onChange={(e) => {
-                                    watchChangeHandler(e, repo?._id);
-                                 }}
-                                 color="blue"
-                              />
+                              {repo?.repoWatchers.indexOf(dbUser?._id) === 0 ? (
+                                 <Checkbox
+                                    defaultChecked
+                                    onChange={(e) => {
+                                       watchChangeHandler(e, repo?._id);
+                                    }}
+                                    color="blue"
+                                 />
+                              ) : (
+                                 <Checkbox
+                                    onChange={(e) => {
+                                       watchChangeHandler(e, repo?._id);
+                                    }}
+                                    color="blue"
+                                 />
+                              )}
                               <label>Watch</label>
                            </div>
                         </div>
