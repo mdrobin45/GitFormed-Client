@@ -3,6 +3,7 @@ import MainLayout from "../Layouts/MainLayout";
 import Login from "../Pages/Authentication/Login/Login";
 import Register from "../Pages/Authentication/Register/Register";
 import Landing from "../Pages/Landing/Landing";
+import PullRequests from "../Pages/PullRequests/PullRequests";
 import Repositories from "../Pages/Repositories/Repositories";
 import PrivateRoute from "./PrivateRoute";
 
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
                   <Repositories />
                </PrivateRoute>
             ),
+         },
+         {
+            path: "/pull-requests/:repoId",
+            element: <PullRequests />,
          },
       ],
    },

@@ -1,9 +1,10 @@
-import { Typography } from "@material-tailwind/react";
+import { Button, Typography } from "@material-tailwind/react";
 import moment from "moment";
+import { Link } from "react-router-dom";
 import styles from "../styles.module.css";
 
-const TABLE_HEAD = ["Repository", "Username", "Watchers", "Created"];
-const RepoTable = ({ repositories }) => {
+const TABLE_HEAD = ["Repository", "Username", "Watchers", "Created", "Action"];
+const RepoTable = ({ repositories = [] }) => {
    return (
       <table className={styles.repoTable}>
          <thead>
@@ -62,6 +63,13 @@ const RepoTable = ({ repositories }) => {
                               "DD MMM YYYY - hh:mm A"
                            )}
                         </Typography>
+                     </td>
+                     <td className={classes}>
+                        <Link to={`/pull-requests/${repo?._id}`}>
+                           <Button className="bg-primary p-2 font-normal tracking-wider">
+                              Pull Requests
+                           </Button>
+                        </Link>
                      </td>
                   </tr>
                );

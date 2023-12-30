@@ -47,3 +47,9 @@ export const getRepoByUser = async (email) => {
    const { data } = await axiosRequest.get(`/repositories/user?email=${email}`);
    return data;
 };
+
+// Create new pull request
+export const createNewPull = async (pullInfo) => {
+   const { data } = await axiosRequest.post("/pull-request", pullInfo);
+   return data;
+};
