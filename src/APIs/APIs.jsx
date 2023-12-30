@@ -53,3 +53,9 @@ export const createNewPull = async (pullInfo) => {
    const { data } = await axiosRequest.post("/pull-request", pullInfo);
    return data;
 };
+
+// Get pull request by repo id
+export const getPullRequests = async (repoId) => {
+   const { data } = await axiosRequest.get(`/pull-request?repoId=${repoId}`);
+   return data;
+};

@@ -1,16 +1,25 @@
 import { Button, Card, Input } from "@material-tailwind/react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
-import { createNewPull } from "../../APIs/APIs";
+import { createNewPull, getPullRequests } from "../../APIs/APIs";
 import styles from "../Repositories/styles.module.css";
 import PullReqTable from "./PullReqTable/PullReqTable";
 
 const PullRequests = () => {
    const { repoId } = useParams();
    const [pullTitle, setPullTitle] = useState("");
-   const isPending = false;
+
+   // Get pull requests from database
+   const {
+      refetch: refetchPulls,
+      data: pullRequestsList = [],
+      isPending: pendingRetrievePulls,
+   } = useQuery({
+      queryKey: ["repoPullReq"],
+      queryFn: () => getPullRequests(repoId),
+   });
 
    // Pull request info
    const pullInfo = {
@@ -22,8 +31,9 @@ const PullRequests = () => {
    const { mutate, isPending: pendingRequest } = useMutation({
       mutationKey: ["createPull"],
       mutationFn: () => createNewPull(pullInfo),
-      onSuccess: (data) => {
-         console.log(data);
+      onSuccess: () => {
+         refetchPulls();
+         setPullTitle("");
       },
    });
 
@@ -38,6 +48,7 @@ const PullRequests = () => {
                onChange={(e) => {
                   setPullTitle(e.target.value);
                }}
+               value={pullTitle}
                type="text"
                label="Pull request title"
                className="pr-20 w-full"
@@ -70,8 +81,8 @@ const PullRequests = () => {
             </Button>
          </div>
          <Card className={styles.tableWrapper}>
-            {!isPending ? (
-               <PullReqTable />
+            {!pendingRetrievePulls ? (
+               <PullReqTable pullRequests={pullRequestsList} />
             ) : (
                <div className="flex py-6 w-full items-start justify-center">
                   <PulseLoader color="#2563eb" />

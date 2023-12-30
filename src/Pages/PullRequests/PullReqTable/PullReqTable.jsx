@@ -1,9 +1,11 @@
 import { Typography } from "@material-tailwind/react";
+import moment from "moment";
 import styles from "../../Repositories/styles.module.css";
 
 const TABLE_HEAD = ["ID", "Title", "Created"];
-const repositories = [1, 2, 3];
-const PullReqTable = () => {
+
+const PullReqTable = ({ pullRequests }) => {
+   const reversePulls = pullRequests.toReversed();
    return (
       <>
          <table className={styles.repoTable}>
@@ -22,20 +24,20 @@ const PullReqTable = () => {
                </tr>
             </thead>
             <tbody>
-               {repositories.map((repo, index) => {
-                  const isLast = index === repositories.length - 1;
+               {reversePulls.map((pull, index) => {
+                  const isLast = index === reversePulls.length - 1;
                   const classes = isLast
                      ? "p-4"
                      : "p-4 border-b border-blue-gray-50";
 
                   return (
-                     <tr key={repo._id}>
+                     <tr key={pull._id}>
                         <td className={classes}>
                            <Typography
                               variant="small"
                               color="blue-gray"
                               className="font-normal">
-                              01
+                              {index + 1}
                            </Typography>
                         </td>
                         <td className={classes}>
@@ -43,8 +45,7 @@ const PullReqTable = () => {
                               variant="small"
                               color="blue-gray"
                               className="font-normal">
-                              {/* {repo.repoWatchers?.length} */}
-                              Title
+                              {pull?.pullReqTitle}
                            </Typography>
                         </td>
                         <td className={classes}>
@@ -52,9 +53,9 @@ const PullReqTable = () => {
                               variant="small"
                               color="blue-gray"
                               className="font-normal">
-                              {/* {moment(repo.createdAt).format(
-                              "DD MMM YYYY - hh:mm A"
-                           )} */}
+                              {moment(pull.createdAt).format(
+                                 "DD MMM YYYY - hh:mm A"
+                              )}
                               Created
                            </Typography>
                         </td>
