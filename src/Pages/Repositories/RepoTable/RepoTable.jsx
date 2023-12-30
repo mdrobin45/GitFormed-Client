@@ -49,8 +49,7 @@ const RepoTable = ({ repositories }) => {
                            variant="small"
                            color="blue-gray"
                            className="font-normal">
-                           {/* {repo.repoWatchers} */}
-                           10
+                           {repo.repoWatchers?.length}
                         </Typography>
                      </td>
                      <td className={classes}>

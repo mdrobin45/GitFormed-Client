@@ -60,31 +60,57 @@ import styles from "./styles.module.css";
 //    },
 // ];
 const Repositories = () => {
-   const { isPending, repositories } = useRepositories();
-   const { userRepos } = useUserRepo();
+   const {
+      isPending,
+      isFetching: allReposStates,
+      repositories,
+   } = useRepositories();
+   const { userRepos, isFetching } = useUserRepo();
+   const [displayRepos, setDisplayRepos] = useState();
    const [selectRepo, setSelectRepo] = useState(1);
-   const [displayRepos, setDisplayRepos] = useState([]);
+   const [sortBy, setSortBy] = useState(1);
 
    // Handle repo dropdown change
    const handleRepo = (e) => {
       setSelectRepo(e);
    };
-   // Handle repo dropdown change
+
+   // Handle sort dropdown change
    const handleSort = (e) => {
-      console.log(e);
+      setSortBy(e);
    };
-   // Handle repo dropdown change
+
+   // Handle watching filter change
    const handleWatching = (e) => {
       console.log(e.target.checked);
    };
 
    useEffect(() => {
+      // Repo change handle
       if (selectRepo == 2) {
          setDisplayRepos(userRepos);
       } else {
          setDisplayRepos(repositories);
       }
-   }, [repositories, selectRepo, userRepos]);
+
+      // Sort by handler
+      if (sortBy == 2) {
+         const alphabeticSorts = repositories.sort((a, b) => {
+            const usernameA = a.repoName.toLowerCase();
+            const usernameB = b.repoName.toLowerCase();
+
+            if (usernameA < usernameB) {
+               return -1;
+            }
+            if (usernameA > usernameB) {
+               return 1;
+            }
+            return 0;
+         });
+         setDisplayRepos(alphabeticSorts);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [selectRepo, isPending, sortBy, isFetching, allReposStates]);
 
    return (
       <div className={styles.repoMainWrapper}>
