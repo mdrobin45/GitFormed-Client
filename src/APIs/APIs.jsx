@@ -59,3 +59,14 @@ export const getPullRequests = async (repoId) => {
    const { data } = await axiosRequest.get(`/pull-request?repoId=${repoId}`);
    return data;
 };
+
+// Update repo watcher
+export const updateRepoWatcher = async (userId, repoId) => {
+   console.log(userId);
+   const { data } = await axiosRequest.put(
+      `/repositories/watcher?repoId=${repoId}`,
+      { userId }
+   );
+
+   return data;
+};
