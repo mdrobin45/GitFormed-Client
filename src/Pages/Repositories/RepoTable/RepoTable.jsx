@@ -1,4 +1,5 @@
 import { Typography } from "@material-tailwind/react";
+import moment from "moment";
 import styles from "../styles.module.css";
 
 const TABLE_HEAD = ["Repository", "Username", "Watchers", "Created"];
@@ -54,12 +55,12 @@ const RepoTable = ({ repositories }) => {
                      </td>
                      <td className={classes}>
                         <Typography
-                           as="a"
-                           href="#"
                            variant="small"
                            color="blue-gray"
-                           className="font-medium">
-                           Edit
+                           className="font-normal">
+                           {moment(repo.createdAt).format(
+                              "DD MMM YYYY - hh:mm A"
+                           )}
                         </Typography>
                      </td>
                   </tr>
