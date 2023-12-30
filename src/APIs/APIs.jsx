@@ -62,9 +62,18 @@ export const getPullRequests = async (repoId) => {
 
 // Update repo watcher
 export const updateRepoWatcher = async (userId, repoId) => {
-   console.log(userId);
    const { data } = await axiosRequest.put(
       `/repositories/watcher?repoId=${repoId}`,
+      { userId }
+   );
+
+   return data;
+};
+
+// Remove watcher
+export const removeWatcher = async (userId, repoId) => {
+   const { data } = await axiosRequest.put(
+      `/repositories/remove-watcher?repoId=${repoId}`,
       { userId }
    );
 

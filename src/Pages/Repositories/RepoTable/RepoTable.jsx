@@ -2,7 +2,7 @@ import { Button, Checkbox, Typography } from "@material-tailwind/react";
 import { useMutation } from "@tanstack/react-query";
 import moment from "moment";
 import { Link } from "react-router-dom";
-import { updateRepoWatcher } from "../../../APIs/APIs";
+import { removeWatcher, updateRepoWatcher } from "../../../APIs/APIs";
 import useRepositories from "../../../Hooks/useRepositories";
 import useUser from "../../../Hooks/useUser";
 import styles from "../styles.module.css";
@@ -16,8 +16,16 @@ const RepoTable = ({ repositories = [] }) => {
    const addWatcher = useMutation({
       mutationKey: ["watchUpdate"],
       mutationFn: ({ userId, repoId }) => updateRepoWatcher(userId, repoId),
-      onSuccess: (data) => {
-         console.log(data);
+      onSuccess: () => {
+         refetchAllRepo();
+      },
+   });
+
+   // Server update request with tan stack
+   const removeWatcherFun = useMutation({
+      mutationKey: ["removeWatcher"],
+      mutationFn: ({ userId, repoId }) => removeWatcher(userId, repoId),
+      onSuccess: () => {
          refetchAllRepo();
       },
    });
@@ -26,8 +34,9 @@ const RepoTable = ({ repositories = [] }) => {
    const watchChangeHandler = (e, repoId) => {
       const isChecked = e.target.checked;
       if (isChecked) {
-         console.log(repoId);
          addWatcher.mutate({ userId: dbUser?._id, repoId });
+      } else {
+         removeWatcherFun.mutate({ userId: dbUser?._id, repoId });
       }
    };
    return (
