@@ -1,7 +1,8 @@
 import { Button, Card, Input } from "@material-tailwind/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { BsArrowReturnLeft } from "react-icons/bs";
+import { Link, useParams } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
 import { createNewPull, getPullRequests } from "../../APIs/APIs";
 import styles from "../Repositories/styles.module.css";
@@ -43,6 +44,9 @@ const PullRequests = () => {
    };
    return (
       <div className={styles.repoMainWrapper}>
+         <Link to="/" className="flex items-center gap-2 text-primary mb-2">
+            <BsArrowReturnLeft /> Back to Repository
+         </Link>
          <div className="relative mb-4 flex w-full">
             <Input
                onChange={(e) => {

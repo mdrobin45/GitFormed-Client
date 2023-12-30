@@ -56,7 +56,6 @@ const PullReqTable = ({ pullRequests }) => {
                               {moment(pull.createdAt).format(
                                  "DD MMM YYYY - hh:mm A"
                               )}
-                              Created
                            </Typography>
                         </td>
                      </tr>
