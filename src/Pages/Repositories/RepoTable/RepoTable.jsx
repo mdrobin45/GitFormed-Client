@@ -100,13 +100,12 @@ const RepoTable = ({ repositories = [] }) => {
                      </td>
                      <td className={classes}>
                         <div className="flex items-center gap-2">
-                           {repo?.repoUsername === dbUser?.username && (
-                              <Link to={`/pull-requests/${repo?._id}`}>
-                                 <Button className="bg-primary p-2 font-normal tracking-wider">
-                                    Pull Requests
-                                 </Button>
-                              </Link>
-                           )}
+                           <Link
+                              to={`/pull-requests/${repo?._id}?username=${repo?.repoUsername}`}>
+                              <Button className="bg-primary p-2 font-normal tracking-wider">
+                                 Pull Requests
+                              </Button>
+                           </Link>
                            <div className="flex items-center">
                               {repo?.repoWatchers.indexOf(dbUser?._id) === 0 ? (
                                  <Checkbox

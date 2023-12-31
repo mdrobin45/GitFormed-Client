@@ -1,5 +1,12 @@
-import { Button, Checkbox, Option, Select } from "@material-tailwind/react";
+import {
+   Badge,
+   Button,
+   Checkbox,
+   Option,
+   Select,
+} from "@material-tailwind/react";
 import { useState } from "react";
+import { IoNotifications } from "react-icons/io5";
 import NewRepoModal from "../NewRepoModal/NewRepoModal";
 import ProfileMenu from "../ProfileMenu";
 import styles from "../styles.module.css";
@@ -35,6 +42,11 @@ const RepoActionBar = ({ handleRepo, handleSort, handleWatching }) => {
                New Repository
             </Button>
             <NewRepoModal open={modalOpen} handleOpen={handleOpen} />
+         </div>
+         <div className="mt-2">
+            <Badge content="5">
+               <IoNotifications className="text-2xl" />
+            </Badge>
          </div>
          <div>
             <ProfileMenu />

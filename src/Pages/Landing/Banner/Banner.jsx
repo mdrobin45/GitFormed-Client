@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import bgImage from "../../../assets/images/banner.jpg";
+import bgImage from "../../../assets/images/banner.webp";
 
 const Banner = () => {
    return (
