@@ -101,15 +101,22 @@ const Repositories = () => {
 
    useEffect(() => {
       // Repo change handle
-      if (selectRepo == 2) {
-         setDisplayRepos(userRepos);
-      } else {
+      if (selectRepo == 1) {
          setDisplayRepos(repositories);
       }
+      if (selectRepo == 2) {
+         setDisplayRepos(userRepos);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [selectRepo, sortBy, isPending, isFetching, allReposStates]);
 
+   useEffect(() => {
       // Sort by handler
+      if (sortBy == 1) {
+         setDisplayRepos(repositories);
+      }
       if (sortBy == 2) {
-         const alphabeticSorts = repositories.sort((a, b) => {
+         const alphabeticSorts = displayRepos.sort((a, b) => {
             const usernameA = a.repoName.toLowerCase();
             const usernameB = b.repoName.toLowerCase();
 
@@ -124,8 +131,7 @@ const Repositories = () => {
          setDisplayRepos(alphabeticSorts);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [selectRepo, isPending, sortBy, isFetching, allReposStates]);
-
+   }, [sortBy, isFetching]);
    return (
       <div className={styles.repoMainWrapper}>
          <RepoActionBar
