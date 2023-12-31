@@ -2,8 +2,13 @@ import {
    Badge,
    Button,
    Checkbox,
+   Menu,
+   MenuHandler,
+   MenuItem,
+   MenuList,
    Option,
    Select,
+   Typography,
 } from "@material-tailwind/react";
 import { useState } from "react";
 import { IoNotifications } from "react-icons/io5";
@@ -14,6 +19,8 @@ import styles from "../styles.module.css";
 const RepoActionBar = ({ handleRepo, handleSort, handleWatching }) => {
    const [modalOpen, setModalOpen] = useState(false);
    const handleOpen = () => setModalOpen(!modalOpen);
+   const [isMenuOpen, setIsMenuOpen] = useState(false);
+   const closeMenu = () => setIsMenuOpen(false);
 
    return (
       <div className={styles.repoToolbarWrapper}>
@@ -44,9 +51,38 @@ const RepoActionBar = ({ handleRepo, handleSort, handleWatching }) => {
             <NewRepoModal open={modalOpen} handleOpen={handleOpen} />
          </div>
          <div className="mt-2">
-            <Badge content="5">
-               <IoNotifications className="text-2xl" />
-            </Badge>
+            <Menu
+               open={isMenuOpen}
+               handler={setIsMenuOpen}
+               placement="bottom-end">
+               <MenuHandler>
+                  <button>
+                     <Badge content="5">
+                        <IoNotifications className="text-2xl text-gray-900" />
+                     </Badge>
+                  </button>
+               </MenuHandler>
+               <MenuList className="p-1">
+                  <MenuItem
+                     onClick={closeMenu}
+                     className="flex items-center gap-2 rounded">
+                     <Typography
+                        as="span"
+                        variant="small"
+                        className="font-normal">
+                        Profile icon changed
+                     </Typography>
+                  </MenuItem>
+                  <MenuItem className="flex items-center gap-2 rounded">
+                     <Typography
+                        as="span"
+                        variant="small"
+                        className="font-normal">
+                        Add google analytics and change code
+                     </Typography>
+                  </MenuItem>
+               </MenuList>
+            </Menu>
          </div>
          <div>
             <ProfileMenu />

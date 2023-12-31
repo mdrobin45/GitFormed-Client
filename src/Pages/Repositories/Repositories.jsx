@@ -1,6 +1,7 @@
 import { Card } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { PulseLoader } from "react-spinners";
+import Pagination from "../../Components/Pagination/Pagination";
 import useRepositories from "../../Hooks/useRepositories";
 import useUserRepo from "../../Hooks/useUserRepo";
 import RepoActionBar from "./RepoActionBar/RepoActionBar";
@@ -66,9 +67,22 @@ const Repositories = () => {
       repositories,
    } = useRepositories();
    const { userRepos, isFetching } = useUserRepo();
-   const [displayRepos, setDisplayRepos] = useState();
+   let [displayRepos, setDisplayRepos] = useState([]);
    const [selectRepo, setSelectRepo] = useState(1);
    const [sortBy, setSortBy] = useState(1);
+   const [currentPage, setCurrentPage] = useState(1);
+   const postsPerPage = 10;
+
+   const startIndex = (currentPage - 1) * postsPerPage;
+   const endIndex = startIndex + postsPerPage;
+
+   const totalPage = Math.ceil(repositories.length / postsPerPage);
+   const pageNumbers = [];
+   for (let i = 1; i <= totalPage; i++) {
+      pageNumbers.push(i);
+   }
+
+   displayRepos = displayRepos.slice(startIndex, endIndex);
 
    // Handle repo dropdown change
    const handleRepo = (e) => {
@@ -126,6 +140,18 @@ const Repositories = () => {
                <div className="flex py-6 w-full items-start justify-center">
                   <PulseLoader color="#2563eb" />
                </div>
+            )}
+            {repositories.length > 5 ? (
+               <div className="flex pb-4 items-center justify-center mt-6">
+                  <Pagination
+                     currentPage={currentPage}
+                     setCurrentPage={setCurrentPage}
+                     pageNumbers={pageNumbers}
+                     totalPage={totalPage}
+                  />
+               </div>
+            ) : (
+               ""
             )}
          </Card>
       </div>
