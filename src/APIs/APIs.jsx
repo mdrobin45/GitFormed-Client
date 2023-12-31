@@ -79,3 +79,11 @@ export const removeWatcher = async (userId, repoId) => {
 
    return data;
 };
+
+// Get user watching repositories
+export const userWatchingRepos = async (userId) => {
+   const { data } = await axiosRequest.get(
+      `/repositories/user-watching?userId=${userId}`
+   );
+   return data;
+};

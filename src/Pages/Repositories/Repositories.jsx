@@ -1,8 +1,10 @@
 import { Card } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { PulseLoader } from "react-spinners";
+import { userWatchingRepos } from "../../APIs/APIs";
 import Pagination from "../../Components/Pagination/Pagination";
 import useRepositories from "../../Hooks/useRepositories";
+import useUser from "../../Hooks/useUser";
 import useUserRepo from "../../Hooks/useUserRepo";
 import RepoActionBar from "./RepoActionBar/RepoActionBar";
 import RepoTable from "./RepoTable/RepoTable";
@@ -72,6 +74,7 @@ const Repositories = () => {
    const [sortBy, setSortBy] = useState(1);
    const [currentPage, setCurrentPage] = useState(1);
    const postsPerPage = 10;
+   const { dbUser } = useUser();
 
    const startIndex = (currentPage - 1) * postsPerPage;
    const endIndex = startIndex + postsPerPage;
@@ -96,7 +99,12 @@ const Repositories = () => {
 
    // Handle watching filter change
    const handleWatching = (e) => {
-      console.log(e.target.checked);
+      const isChecked = e.target.checked;
+      if (isChecked) {
+         userWatchingRepos(dbUser?._id).then((res) => setDisplayRepos(res));
+      } else {
+         setDisplayRepos(repositories);
+      }
    };
 
    useEffect(() => {
