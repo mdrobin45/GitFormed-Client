@@ -5,7 +5,6 @@ import Register from "../Pages/Authentication/Register/Register";
 import Landing from "../Pages/Landing/Landing";
 import PullRequests from "../Pages/PullRequests/PullRequests";
 import Repositories from "../Pages/Repositories/Repositories";
-import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
    {
@@ -14,11 +13,7 @@ const router = createBrowserRouter([
       children: [
          {
             path: "/",
-            element: (
-               <PrivateRoute>
-                  <Repositories />
-               </PrivateRoute>
-            ),
+            element: <Repositories />,
          },
          {
             path: "/pull-requests/:repoId",

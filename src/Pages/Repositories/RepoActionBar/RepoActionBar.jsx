@@ -12,6 +12,8 @@ import {
 } from "@material-tailwind/react";
 import { useState } from "react";
 import { IoNotifications } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import useAuth from "../../../Hooks/useAuth";
 import NewRepoModal from "../NewRepoModal/NewRepoModal";
 import ProfileMenu from "../ProfileMenu";
 import styles from "../styles.module.css";
@@ -21,6 +23,7 @@ const RepoActionBar = ({ handleRepo, handleSort, handleWatching }) => {
    const handleOpen = () => setModalOpen(!modalOpen);
    const [isMenuOpen, setIsMenuOpen] = useState(false);
    const closeMenu = () => setIsMenuOpen(false);
+   const { user } = useAuth();
 
    return (
       <div className={styles.repoToolbarWrapper}>
@@ -85,7 +88,13 @@ const RepoActionBar = ({ handleRepo, handleSort, handleWatching }) => {
             </Menu>
          </div>
          <div>
-            <ProfileMenu />
+            {user ? (
+               <ProfileMenu />
+            ) : (
+               <Link to="/login">
+                  <Button className="ml-4 bg-primary">Login</Button>
+               </Link>
+            )}
          </div>
       </div>
    );

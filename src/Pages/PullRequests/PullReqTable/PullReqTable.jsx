@@ -23,45 +23,49 @@ const PullReqTable = ({ pullRequests }) => {
                   ))}
                </tr>
             </thead>
-            <tbody>
-               {reversePulls.map((pull, index) => {
-                  const isLast = index === reversePulls.length - 1;
-                  const classes = isLast
-                     ? "p-4"
-                     : "p-4 border-b border-blue-gray-50";
+            {reversePulls.length ? (
+               <tbody>
+                  {reversePulls.map((pull, index) => {
+                     const isLast = index === reversePulls.length - 1;
+                     const classes = isLast
+                        ? "p-4"
+                        : "p-4 border-b border-blue-gray-50";
 
-                  return (
-                     <tr key={pull._id}>
-                        <td className={classes}>
-                           <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal">
-                              {index + 1}
-                           </Typography>
-                        </td>
-                        <td className={classes}>
-                           <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal">
-                              {pull?.pullReqTitle}
-                           </Typography>
-                        </td>
-                        <td className={classes}>
-                           <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal">
-                              {moment(pull.createdAt).format(
-                                 "DD MMM YYYY - hh:mm A"
-                              )}
-                           </Typography>
-                        </td>
-                     </tr>
-                  );
-               })}
-            </tbody>
+                     return (
+                        <tr key={pull._id}>
+                           <td className={classes}>
+                              <Typography
+                                 variant="small"
+                                 color="blue-gray"
+                                 className="font-normal">
+                                 {index + 1}
+                              </Typography>
+                           </td>
+                           <td className={classes}>
+                              <Typography
+                                 variant="small"
+                                 color="blue-gray"
+                                 className="font-normal">
+                                 {pull?.pullReqTitle}
+                              </Typography>
+                           </td>
+                           <td className={classes}>
+                              <Typography
+                                 variant="small"
+                                 color="blue-gray"
+                                 className="font-normal">
+                                 {moment(pull.createdAt).format(
+                                    "DD MMM YYYY - hh:mm A"
+                                 )}
+                              </Typography>
+                           </td>
+                        </tr>
+                     );
+                  })}
+               </tbody>
+            ) : (
+               <p className="p-3">No pull request found</p>
+            )}
          </table>
       </>
    );

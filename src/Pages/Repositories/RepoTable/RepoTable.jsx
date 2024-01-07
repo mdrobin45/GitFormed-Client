@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { removeWatcher, updateRepoWatcher } from "../../../APIs/APIs";
+import useAuth from "../../../Hooks/useAuth";
 import useRepositories from "../../../Hooks/useRepositories";
 import useUser from "../../../Hooks/useUser";
 import styles from "../styles.module.css";
@@ -11,6 +12,7 @@ const TABLE_HEAD = ["Repository", "Username", "Watchers", "Created", "Action"];
 const RepoTable = ({ repositories = [] }) => {
    const { refetchAllRepo } = useRepositories();
    const { dbUser } = useUser();
+   const { user } = useAuth();
 
    // Server update request with tan stack
    const addWatcher = useMutation({
@@ -25,8 +27,12 @@ const RepoTable = ({ repositories = [] }) => {
    const removeWatcherFun = useMutation({
       mutationKey: ["removeWatcher"],
       mutationFn: ({ userId, repoId }) => removeWatcher(userId, repoId),
-      onSuccess: () => {
+      onSuccess: (e) => {
+         console.log(e);
          refetchAllRepo();
+      },
+      onError: (e) => {
+         console.log(e);
       },
    });
 
@@ -99,33 +105,38 @@ const RepoTable = ({ repositories = [] }) => {
                         </Typography>
                      </td>
                      <td className={classes}>
-                        <div className="flex items-center gap-2">
-                           <Link
-                              to={`/pull-requests/${repo?._id}?username=${repo?.repoUsername}`}>
-                              <Button className="bg-primary p-2 font-normal tracking-wider">
-                                 Pull Requests
-                              </Button>
-                           </Link>
-                           <div className="flex items-center">
-                              {repo?.repoWatchers.indexOf(dbUser?._id) === 0 ? (
-                                 <Checkbox
-                                    defaultChecked
-                                    onChange={(e) => {
-                                       watchChangeHandler(e, repo?._id);
-                                    }}
-                                    color="blue"
-                                 />
-                              ) : (
-                                 <Checkbox
-                                    onChange={(e) => {
-                                       watchChangeHandler(e, repo?._id);
-                                    }}
-                                    color="blue"
-                                 />
-                              )}
-                              <label>Watch</label>
+                        {user ? (
+                           <div className="flex items-center gap-2">
+                              <Link
+                                 to={`/pull-requests/${repo?._id}?username=${repo?.repoUsername}`}>
+                                 <Button className="bg-primary p-2 font-normal tracking-wider">
+                                    Pull Requests
+                                 </Button>
+                              </Link>
+                              <div className="flex items-center">
+                                 {repo?.repoWatchers.indexOf(dbUser?._id) ===
+                                 0 ? (
+                                    <Checkbox
+                                       defaultChecked
+                                       onChange={(e) => {
+                                          watchChangeHandler(e, repo?._id);
+                                       }}
+                                       color="blue"
+                                    />
+                                 ) : (
+                                    <Checkbox
+                                       onChange={(e) => {
+                                          watchChangeHandler(e, repo?._id);
+                                       }}
+                                       color="blue"
+                                    />
+                                 )}
+                                 <label>Watch</label>
+                              </div>
                            </div>
-                        </div>
+                        ) : (
+                           "Login Required"
+                        )}
                      </td>
                   </tr>
                );
