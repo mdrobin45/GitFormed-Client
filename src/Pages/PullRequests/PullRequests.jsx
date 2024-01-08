@@ -4,7 +4,7 @@ import { useState } from "react";
 import { BsArrowReturnLeft } from "react-icons/bs";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
-import { createNewPull, getPullRequests } from "../../APIs/APIs";
+import useAPI from "../../Hooks/useAPI";
 import useUser from "../../Hooks/useUser";
 import styles from "../Repositories/styles.module.css";
 import PullReqTable from "./PullReqTable/PullReqTable";
@@ -14,6 +14,7 @@ const PullRequests = () => {
    const { dbUser } = useUser();
    const [searchParams] = useSearchParams();
    const repoUser = searchParams.get("username");
+   const { createNewPull, getPullRequests } = useAPI();
 
    const [pullTitle, setPullTitle] = useState("");
 

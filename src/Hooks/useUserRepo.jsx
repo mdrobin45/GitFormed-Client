@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { getRepoByUser } from "../APIs/APIs";
+import useAPI from "./useAPI";
 import useAuth from "./useAuth";
 
 const useUserRepo = () => {
    const { user } = useAuth();
+   const { getRepoByUser } = useAPI();
+
    let {
       isPending,
       isFetching,

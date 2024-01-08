@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { getUser } from "../APIs/APIs";
+import useAPI from "./useAPI";
 import useAuth from "./useAuth";
 
 const useUser = () => {
    const { user } = useAuth();
+   const { getUser } = useAPI();
 
    // Retrieve username
    const email = user?.email;

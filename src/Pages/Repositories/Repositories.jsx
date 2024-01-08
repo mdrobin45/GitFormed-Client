@@ -1,11 +1,8 @@
 import { Card } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
-import { userWatchingRepos } from "../../APIs/APIs";
-import Pagination from "../../Components/Pagination/Pagination";
-import useRepositories from "../../Hooks/useRepositories";
-import useUser from "../../Hooks/useUser";
-import useUserRepo from "../../Hooks/useUserRepo";
+import useAPI from "../../Hooks/useAPI";
 import RepoActionBar from "./RepoActionBar/RepoActionBar";
 import RepoTable from "./RepoTable/RepoTable";
 import styles from "./styles.module.css";
@@ -63,99 +60,123 @@ import styles from "./styles.module.css";
 //    },
 // ];
 const Repositories = () => {
-   const {
-      isPending,
-      isFetching: allReposStates,
-      repositories,
-   } = useRepositories();
-   const { userRepos, isFetching } = useUserRepo();
-   let [displayRepos, setDisplayRepos] = useState([]);
-   const [selectRepo, setSelectRepo] = useState(1);
-   const [sortBy, setSortBy] = useState(1);
-   const [currentPage, setCurrentPage] = useState(1);
-   const postsPerPage = 10;
-   const { dbUser } = useUser();
+   // const {
+   //    isPending,
+   //    isFetching: allReposStates,
+   //    repositories,
+   // } = useRepositories();
+   // const { userRepos, isFetching } = useUserRepo();
+   // let [displayRepos, setDisplayRepos] = useState([]);
+   // const [selectRepo, setSelectRepo] = useState(1);
+   // const [sortBy, setSortBy] = useState(1);
+   // const [currentPage, setCurrentPage] = useState(1);
+   // const postsPerPage = 10;
+   // const { dbUser } = useUser();
+   const { filterRepository } = useAPI();
 
-   const startIndex = (currentPage - 1) * postsPerPage;
-   const endIndex = startIndex + postsPerPage;
+   const [searchParams, setSearchParams] = useSearchParams();
+   const [repositories, setRepositories] = useState([]);
+   const isPending = false;
 
-   const totalPage = Math.ceil(repositories.length / postsPerPage);
-   const pageNumbers = [];
-   for (let i = 1; i <= totalPage; i++) {
-      pageNumbers.push(i);
-   }
+   const repo = searchParams.get("repo");
+   const sortBy = searchParams.get("sortBy");
+   const myWatching = searchParams.get("myWatching");
 
-   displayRepos = displayRepos.slice(startIndex, endIndex);
+   // const { isPending, data: repositories = [] } = useQuery({
+   //    queryKey: ["filteredRepo", searchParams],
+   //    queryFn: () => filterRepository(repo, sortBy, myWatching),
+   //    enabled: !!searchParams,
+   // });
+   // console.log(repositories);
+
+   useEffect(() => {
+      filterRepository(repo, sortBy, myWatching).then((res) =>
+         setRepositories(res)
+      );
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [myWatching, repo, searchParams, sortBy]);
+   console.log(repositories);
+
+   // const startIndex = (currentPage - 1) * postsPerPage;
+   // const endIndex = startIndex + postsPerPage;
+
+   // const totalPage = Math.ceil(repositories.length / postsPerPage);
+   // const pageNumbers = [];
+   // for (let i = 1; i <= totalPage; i++) {
+   //    pageNumbers.push(i);
+   // }
+
+   // displayRepos = displayRepos.slice(startIndex, endIndex);
 
    // Handle repo dropdown change
-   const handleRepo = (e) => {
-      setSelectRepo(e);
-   };
+   // const handleRepo = (e) => {
+   //    // setShowRepo(e);
+   //    setSearch("repo", e);
+   // };
 
    // Handle sort dropdown change
-   const handleSort = (e) => {
-      setSortBy(e);
-   };
+   // const handleSort = (e) => {
+   //    setSortBy(e);
+   // };
 
    // Handle watching filter change
-   const handleWatching = (e) => {
-      const isChecked = e.target.checked;
-      if (isChecked) {
-         userWatchingRepos(dbUser?._id).then((res) => setDisplayRepos(res));
-      } else {
-         setDisplayRepos(repositories);
-      }
-   };
+   // const handleWatching = (e) => {
+   //    const isChecked = e.target.checked;
+   //    if (isChecked) {
+   //       userWatchingRepos(dbUser?._id).then((res) => setDisplayRepos(res));
+   //    } else {
+   //       setDisplayRepos(repositories);
+   //    }
+   // };
 
-   useEffect(() => {
-      // Repo change handle
-      if (selectRepo == 1) {
-         setDisplayRepos(repositories);
-      }
-      if (selectRepo == 2) {
-         setDisplayRepos(userRepos);
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [selectRepo, sortBy, isPending, isFetching, allReposStates]);
+   // useEffect(() => {
+   //    // Repo change handle
+   //    if (selectRepo == 1) {
+   //       setDisplayRepos(repositories);
+   //    }
+   //    if (selectRepo == 2) {
+   //       setDisplayRepos(userRepos);
+   //    }
+   //    // eslint-disable-next-line react-hooks/exhaustive-deps
+   // }, [selectRepo, sortBy, isPending, isFetching, allReposStates]);
 
-   useEffect(() => {
-      // Sort by handler
-      if (sortBy == 1) {
-         setDisplayRepos(repositories);
-      }
-      if (sortBy == 2) {
-         const alphabeticSorts = displayRepos.sort((a, b) => {
-            const usernameA = a.repoName.toLowerCase();
-            const usernameB = b.repoName.toLowerCase();
+   // useEffect(() => {
+   //    // Sort by handler
+   //    if (sortBy == 1) {
+   //       setDisplayRepos(repositories);
+   //    }
+   //    if (sortBy == 2) {
+   //       const alphabeticSorts = displayRepos.sort((a, b) => {
+   //          const usernameA = a.repoName.toLowerCase();
+   //          const usernameB = b.repoName.toLowerCase();
 
-            if (usernameA < usernameB) {
-               return -1;
-            }
-            if (usernameA > usernameB) {
-               return 1;
-            }
-            return 0;
-         });
-         setDisplayRepos(alphabeticSorts);
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [sortBy, isFetching]);
+   //          if (usernameA < usernameB) {
+   //             return -1;
+   //          }
+   //          if (usernameA > usernameB) {
+   //             return 1;
+   //          }
+   //          return 0;
+   //       });
+   //       setDisplayRepos(alphabeticSorts);
+   //    }
+   //    // eslint-disable-next-line react-hooks/exhaustive-deps
+   // }, [sortBy, isFetching]);
    return (
       <div className={styles.repoMainWrapper}>
          <RepoActionBar
-            handleSort={handleSort}
-            handleWatching={handleWatching}
-            handleRepo={handleRepo}
+            searchParams={searchParams}
+            setSearchParams={setSearchParams}
          />
          <Card className={styles.tableWrapper}>
             {!isPending ? (
-               <RepoTable repositories={displayRepos} />
+               <RepoTable repositories={repositories} />
             ) : (
                <div className="flex py-6 w-full items-start justify-center">
                   <PulseLoader color="#2563eb" />
                </div>
             )}
-            {repositories.length > 5 ? (
+            {/* {repositories.length > 5 ? (
                <div className="flex pb-4 items-center justify-center mt-6">
                   <Pagination
                      currentPage={currentPage}
@@ -166,7 +187,7 @@ const Repositories = () => {
                </div>
             ) : (
                ""
-            )}
+            )} */}
          </Card>
       </div>
    );

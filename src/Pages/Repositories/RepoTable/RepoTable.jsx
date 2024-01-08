@@ -2,7 +2,7 @@ import { Button, Checkbox, Typography } from "@material-tailwind/react";
 import { useMutation } from "@tanstack/react-query";
 import moment from "moment";
 import { Link } from "react-router-dom";
-import { removeWatcher, updateRepoWatcher } from "../../../APIs/APIs";
+import useAPI from "../../../Hooks/useAPI";
 import useAuth from "../../../Hooks/useAuth";
 import useRepositories from "../../../Hooks/useRepositories";
 import useUser from "../../../Hooks/useUser";
@@ -10,6 +10,7 @@ import styles from "../styles.module.css";
 
 const TABLE_HEAD = ["Repository", "Username", "Watchers", "Created", "Action"];
 const RepoTable = ({ repositories = [] }) => {
+   const { removeWatcher, updateRepoWatcher } = useAPI();
    const { refetchAllRepo } = useRepositories();
    const { dbUser } = useUser();
    const { user } = useAuth();

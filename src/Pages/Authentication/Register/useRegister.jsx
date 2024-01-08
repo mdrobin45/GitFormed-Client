@@ -1,11 +1,13 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { findUser, saveUserToDB } from "../../../APIs/APIs";
+import useAPI from "../../../Hooks/useAPI";
 import useAuth from "../../../Hooks/useAuth";
 
 const useRegister = () => {
    const { registerWithEmailPassword } = useAuth();
+   const { findUser, saveUserToDB } = useAPI();
+
    const navigate = useNavigate();
    const {
       register,

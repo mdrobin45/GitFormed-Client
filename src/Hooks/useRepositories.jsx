@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { getRepositories } from "../APIs/APIs";
+import useAPI from "./useAPI";
 
 const useRepositories = () => {
+   const { getRepositories } = useAPI();
    let {
       isPending,
       isFetching,

@@ -18,7 +18,7 @@ import NewRepoModal from "../NewRepoModal/NewRepoModal";
 import ProfileMenu from "../ProfileMenu";
 import styles from "../styles.module.css";
 
-const RepoActionBar = ({ handleRepo, handleSort, handleWatching }) => {
+const RepoActionBar = ({ searchParams, setSearchParams }) => {
    const [modalOpen, setModalOpen] = useState(false);
    const handleOpen = () => setModalOpen(!modalOpen);
    const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -29,22 +29,45 @@ const RepoActionBar = ({ handleRepo, handleSort, handleWatching }) => {
       <div className={styles.repoToolbarWrapper}>
          <div>
             <Select
-               onChange={handleRepo}
+               onChange={(e) =>
+                  setSearchParams((prev) => {
+                     prev.set("repo", e);
+                     return prev;
+                  })
+               }
                variant="outlined"
                label="Repositories to Show">
-               <Option value="1">All Repositories</Option>
-               <Option value="2">My Repositories</Option>
+               <Option value="all">All Repositories</Option>
+               <Option value={user?.email}>My Repositories</Option>
             </Select>
          </div>
          <div>
-            <Select onChange={handleSort} variant="outlined" label="Sort By">
-               <Option value="1">Latest</Option>
-               <Option value="2">Alphabetical</Option>
-               <Option value="3">watchers</Option>
+            <Select
+               onChange={(e) => {
+                  setSearchParams((prev) => {
+                     prev.set("sortBy", e);
+                     return prev;
+                  });
+               }}
+               variant="outlined"
+               label="Sort By">
+               <Option value="latest">Latest</Option>
+               <Option value="alphabetical">Alphabetical</Option>
+               <Option value="watchers">watchers</Option>
             </Select>
          </div>
          <div className="flex items-center">
-            <Checkbox onChange={handleWatching} id="myWatch" color="blue" />
+            <Checkbox
+               checked={searchParams.get("myWatching") === "true"}
+               onChange={(e) => {
+                  setSearchParams((prev) => {
+                     prev.set("myWatching", e.target.checked);
+                     return prev;
+                  });
+               }}
+               id="myWatch"
+               color="blue"
+            />
             <label htmlFor="myWatch">My Watching Repositories</label>
          </div>
          <div>
