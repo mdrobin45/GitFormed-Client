@@ -60,20 +60,7 @@ import styles from "./styles.module.css";
 //    },
 // ];
 const Repositories = () => {
-   // const {
-   //    isPending,
-   //    isFetching: allReposStates,
-   //    repositories,
-   // } = useRepositories();
-   // const { userRepos, isFetching } = useUserRepo();
-   // let [displayRepos, setDisplayRepos] = useState([]);
-   // const [selectRepo, setSelectRepo] = useState(1);
-   // const [sortBy, setSortBy] = useState(1);
-   // const [currentPage, setCurrentPage] = useState(1);
-   // const postsPerPage = 10;
-   // const { dbUser } = useUser();
    const { filterRepository } = useAPI();
-
    const [searchParams, setSearchParams] = useSearchParams();
    const [repositories, setRepositories] = useState([]);
    const isPending = false;
@@ -82,86 +69,13 @@ const Repositories = () => {
    const sortBy = searchParams.get("sortBy");
    const myWatching = searchParams.get("myWatching");
 
-   // const { isPending, data: repositories = [] } = useQuery({
-   //    queryKey: ["filteredRepo", searchParams],
-   //    queryFn: () => filterRepository(repo, sortBy, myWatching),
-   //    enabled: !!searchParams,
-   // });
-   // console.log(repositories);
-
    useEffect(() => {
       filterRepository(repo, sortBy, myWatching).then((res) =>
          setRepositories(res)
       );
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [myWatching, repo, searchParams, sortBy]);
-   console.log(repositories);
 
-   // const startIndex = (currentPage - 1) * postsPerPage;
-   // const endIndex = startIndex + postsPerPage;
-
-   // const totalPage = Math.ceil(repositories.length / postsPerPage);
-   // const pageNumbers = [];
-   // for (let i = 1; i <= totalPage; i++) {
-   //    pageNumbers.push(i);
-   // }
-
-   // displayRepos = displayRepos.slice(startIndex, endIndex);
-
-   // Handle repo dropdown change
-   // const handleRepo = (e) => {
-   //    // setShowRepo(e);
-   //    setSearch("repo", e);
-   // };
-
-   // Handle sort dropdown change
-   // const handleSort = (e) => {
-   //    setSortBy(e);
-   // };
-
-   // Handle watching filter change
-   // const handleWatching = (e) => {
-   //    const isChecked = e.target.checked;
-   //    if (isChecked) {
-   //       userWatchingRepos(dbUser?._id).then((res) => setDisplayRepos(res));
-   //    } else {
-   //       setDisplayRepos(repositories);
-   //    }
-   // };
-
-   // useEffect(() => {
-   //    // Repo change handle
-   //    if (selectRepo == 1) {
-   //       setDisplayRepos(repositories);
-   //    }
-   //    if (selectRepo == 2) {
-   //       setDisplayRepos(userRepos);
-   //    }
-   //    // eslint-disable-next-line react-hooks/exhaustive-deps
-   // }, [selectRepo, sortBy, isPending, isFetching, allReposStates]);
-
-   // useEffect(() => {
-   //    // Sort by handler
-   //    if (sortBy == 1) {
-   //       setDisplayRepos(repositories);
-   //    }
-   //    if (sortBy == 2) {
-   //       const alphabeticSorts = displayRepos.sort((a, b) => {
-   //          const usernameA = a.repoName.toLowerCase();
-   //          const usernameB = b.repoName.toLowerCase();
-
-   //          if (usernameA < usernameB) {
-   //             return -1;
-   //          }
-   //          if (usernameA > usernameB) {
-   //             return 1;
-   //          }
-   //          return 0;
-   //       });
-   //       setDisplayRepos(alphabeticSorts);
-   //    }
-   //    // eslint-disable-next-line react-hooks/exhaustive-deps
-   // }, [sortBy, isFetching]);
    return (
       <div className={styles.repoMainWrapper}>
          <RepoActionBar
@@ -176,18 +90,6 @@ const Repositories = () => {
                   <PulseLoader color="#2563eb" />
                </div>
             )}
-            {/* {repositories.length > 5 ? (
-               <div className="flex pb-4 items-center justify-center mt-6">
-                  <Pagination
-                     currentPage={currentPage}
-                     setCurrentPage={setCurrentPage}
-                     pageNumbers={pageNumbers}
-                     totalPage={totalPage}
-                  />
-               </div>
-            ) : (
-               ""
-            )} */}
          </Card>
       </div>
    );
