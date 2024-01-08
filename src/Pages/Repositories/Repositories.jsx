@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
 import useAPI from "../../Hooks/useAPI";
+import useRepositories from "../../Hooks/useRepositories";
+import useUser from "../../Hooks/useUser";
 import RepoActionBar from "./RepoActionBar/RepoActionBar";
 import RepoTable from "./RepoTable/RepoTable";
 import styles from "./styles.module.css";
@@ -62,16 +64,20 @@ import styles from "./styles.module.css";
 const Repositories = () => {
    const { filterRepository } = useAPI();
    const [searchParams, setSearchParams] = useSearchParams();
-   const [repositories, setRepositories] = useState([]);
-   const isPending = false;
+   const [filteredRepos, setFilteredRepos] = useState([]);
+   const { repositories, isPending } = useRepositories();
+   const { dbUser } = useUser();
+   console.log(dbUser);
 
+   // URL query params
    const repo = searchParams.get("repo");
    const sortBy = searchParams.get("sortBy");
    const myWatching = searchParams.get("myWatching");
 
+   // Fetch repository by filtering
    useEffect(() => {
       filterRepository(repo, sortBy, myWatching).then((res) =>
-         setRepositories(res)
+         setFilteredRepos(res)
       );
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [myWatching, repo, searchParams, sortBy]);
@@ -84,7 +90,11 @@ const Repositories = () => {
          />
          <Card className={styles.tableWrapper}>
             {!isPending ? (
-               <RepoTable repositories={repositories} />
+               <RepoTable
+                  repositories={
+                     !filteredRepos.length ? repositories : filteredRepos
+                  }
+               />
             ) : (
                <div className="flex py-6 w-full items-start justify-center">
                   <PulseLoader color="#2563eb" />
