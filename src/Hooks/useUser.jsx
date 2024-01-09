@@ -9,7 +9,7 @@ const useUser = () => {
    // Retrieve username
    const email = user?.email;
    const { data: dbUser } = useQuery({
-      queryKey: ["user"],
+      queryKey: ["user", user],
       queryFn: () => getUser(email),
    });
 

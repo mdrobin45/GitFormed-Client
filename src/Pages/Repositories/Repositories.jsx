@@ -4,7 +4,6 @@ import { useSearchParams } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
 import useAPI from "../../Hooks/useAPI";
 import useRepositories from "../../Hooks/useRepositories";
-import useUser from "../../Hooks/useUser";
 import RepoActionBar from "./RepoActionBar/RepoActionBar";
 import RepoTable from "./RepoTable/RepoTable";
 import styles from "./styles.module.css";
@@ -66,8 +65,6 @@ const Repositories = () => {
    const [searchParams, setSearchParams] = useSearchParams();
    const [filteredRepos, setFilteredRepos] = useState([]);
    const { repositories, isPending } = useRepositories();
-   const { dbUser } = useUser();
-   console.log(dbUser);
 
    // URL query params
    const repo = searchParams.get("repo");

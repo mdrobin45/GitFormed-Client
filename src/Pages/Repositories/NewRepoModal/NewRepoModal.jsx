@@ -22,7 +22,6 @@ const NewRepoModal = ({ handleOpen, open }) => {
    const [inputErr, setInputErr] = useState("");
    const { user } = useAuth();
    const { dbUser } = useUser();
-   console.log(dbUser);
    const {
       register,
       handleSubmit,
