@@ -18,7 +18,7 @@ import NewRepoModal from "../NewRepoModal/NewRepoModal";
 import ProfileMenu from "../ProfileMenu";
 import styles from "../styles.module.css";
 
-const RepoActionBar = ({ searchParams, setSearchParams }) => {
+const RepoActionBar = ({ searchParams, setSearchParams, refetchFilter }) => {
    const [modalOpen, setModalOpen] = useState(false);
    const handleOpen = () => setModalOpen(!modalOpen);
    const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -31,10 +31,12 @@ const RepoActionBar = ({ searchParams, setSearchParams }) => {
             <Select
                selected={() => {
                   const params = searchParams.get("repo");
-                  if (params === "all") {
+                  if (!params) {
                      return "All Repositories";
-                  } else {
+                  } else if (params !== "all") {
                      return "My Repositories";
+                  } else {
+                     return "All Repositories";
                   }
                }}
                onChange={(e) =>
@@ -52,14 +54,13 @@ const RepoActionBar = ({ searchParams, setSearchParams }) => {
             <Select
                selected={() => {
                   const params = searchParams.get("sortBy");
-                  if (params === "latest") {
-                     return "Latest";
-                  }
                   if (params === "alphabetical") {
                      return "Alphabetical";
                   }
                   if (params === "watchers") {
                      return "Watchers";
+                  } else {
+                     return "Latest";
                   }
                }}
                onChange={(e) => {
@@ -92,7 +93,11 @@ const RepoActionBar = ({ searchParams, setSearchParams }) => {
             <Button onClick={handleOpen} className={styles.newRepoBtn}>
                New Repository
             </Button>
-            <NewRepoModal open={modalOpen} handleOpen={handleOpen} />
+            <NewRepoModal
+               refetchFilter={refetchFilter}
+               open={modalOpen}
+               handleOpen={handleOpen}
+            />
          </div>
          <div className="mt-2">
             <Menu

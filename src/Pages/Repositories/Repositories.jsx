@@ -1,5 +1,5 @@
 import { Card } from "@material-tailwind/react";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
 import useAPI from "../../Hooks/useAPI";
@@ -63,7 +63,7 @@ import styles from "./styles.module.css";
 const Repositories = () => {
    const { filterRepository } = useAPI();
    const [searchParams, setSearchParams] = useSearchParams();
-   const [filteredRepos, setFilteredRepos] = useState([]);
+   // const [filteredRepos, setFilteredRepos] = useState([]);
    const { repositories, isPending } = useRepositories();
 
    // URL query params
@@ -71,17 +71,22 @@ const Repositories = () => {
    const sortBy = searchParams.get("sortBy");
    const myWatching = searchParams.get("myWatching");
 
+   const { refetch: refetchFilter, data: filteredRepos = [] } = useQuery({
+      queryKey: ["filteredRepo", myWatching, repo, searchParams, sortBy],
+      queryFn: () => filterRepository(repo, sortBy, myWatching),
+   });
    // Fetch repository by filtering
-   useEffect(() => {
-      filterRepository(repo, sortBy, myWatching).then((res) =>
-         setFilteredRepos(res)
-      );
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [myWatching, repo, searchParams, sortBy]);
+   // useEffect(() => {
+   //    filterRepository(repo, sortBy, myWatching).then((res) =>
+   //       setFilteredRepos(res)
+   //    );
+   //    // eslint-disable-next-line react-hooks/exhaustive-deps
+   // }, [myWatching, repo, searchParams, sortBy]);
 
    return (
       <div className={styles.repoMainWrapper}>
          <RepoActionBar
+            refetchFilter={refetchFilter}
             searchParams={searchParams}
             setSearchParams={setSearchParams}
          />

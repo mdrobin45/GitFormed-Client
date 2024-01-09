@@ -13,11 +13,9 @@ import { createNewRepo, findRepo } from "../../../APIs/APIs";
 import useAuth from "../../../Hooks/useAuth";
 import useRepositories from "../../../Hooks/useRepositories";
 import useUser from "../../../Hooks/useUser";
-import useUserRepo from "../../../Hooks/useUserRepo";
 import { showToast } from "../../../Utilities/toast";
 
-const NewRepoModal = ({ handleOpen, open }) => {
-   const { refetch } = useUserRepo();
+const NewRepoModal = ({ handleOpen, open, refetchFilter }) => {
    const { refetchAllRepo } = useRepositories();
    const [inputErr, setInputErr] = useState("");
    const { user } = useAuth();
@@ -44,7 +42,7 @@ const NewRepoModal = ({ handleOpen, open }) => {
                if (res.id) {
                   showToast("Repository Created", "success");
                   handleOpen();
-                  refetch();
+                  refetchFilter();
                   refetchAllRepo();
                   reset();
                }
