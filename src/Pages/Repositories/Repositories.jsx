@@ -95,7 +95,6 @@ const Repositories = () => {
       setFilteredRepos(data?.response);
    }, [data]);
 
-   console.log(data);
    return (
       <div className={styles.repoMainWrapper}>
          <RepoActionBar
@@ -111,9 +110,11 @@ const Repositories = () => {
                   <PulseLoader color="#2563eb" />
                </div>
             )}
-            <div className="p-4">
-               <Pagination totalRepositories={data?.total} />
-            </div>
+            {data?.total > 10 && (
+               <div className="p-4">
+                  <Pagination totalRepositories={data?.total} />
+               </div>
+            )}
          </Card>
       </div>
    );
