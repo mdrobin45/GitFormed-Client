@@ -1,9 +1,10 @@
 import { Card } from "@material-tailwind/react";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
 import useAPI from "../../Hooks/useAPI";
-import useRepositories from "../../Hooks/useRepositories";
+import useAuth from "../../Hooks/useAuth";
 import RepoActionBar from "./RepoActionBar/RepoActionBar";
 import RepoTable from "./RepoTable/RepoTable";
 import styles from "./styles.module.css";
@@ -63,25 +64,26 @@ import styles from "./styles.module.css";
 const Repositories = () => {
    const { filterRepository } = useAPI();
    const [searchParams, setSearchParams] = useSearchParams();
-   // const [filteredRepos, setFilteredRepos] = useState([]);
-   const { repositories, isPending } = useRepositories();
+   const [filteredRepos, setFilteredRepos] = useState([]);
+   const { user } = useAuth();
 
    // URL query params
    const repo = searchParams.get("repo");
    const sortBy = searchParams.get("sortBy");
    const myWatching = searchParams.get("myWatching");
 
-   const { refetch: refetchFilter, data: filteredRepos = [] } = useQuery({
-      queryKey: ["filteredRepo", myWatching, repo, searchParams, sortBy],
+   const {
+      isPending,
+      refetch: refetchFilter,
+      data,
+   } = useQuery({
+      queryKey: ["filteredRepo", user, myWatching, repo, searchParams, sortBy],
       queryFn: () => filterRepository(repo, sortBy, myWatching),
    });
-   // Fetch repository by filtering
-   // useEffect(() => {
-   //    filterRepository(repo, sortBy, myWatching).then((res) =>
-   //       setFilteredRepos(res)
-   //    );
-   //    // eslint-disable-next-line react-hooks/exhaustive-deps
-   // }, [myWatching, repo, searchParams, sortBy]);
+
+   useEffect(() => {
+      setFilteredRepos(data?.response);
+   }, [data]);
 
    return (
       <div className={styles.repoMainWrapper}>
@@ -92,11 +94,7 @@ const Repositories = () => {
          />
          <Card className={styles.tableWrapper}>
             {!isPending ? (
-               <RepoTable
-                  repositories={
-                     !filteredRepos.length ? repositories : filteredRepos
-                  }
-               />
+               <RepoTable repositories={filteredRepos} />
             ) : (
                <div className="flex py-6 w-full items-start justify-center">
                   <PulseLoader color="#2563eb" />
