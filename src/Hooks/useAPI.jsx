@@ -94,9 +94,9 @@ const useAPI = () => {
    };
 
    // Repository filter
-   const filterRepository = async (repo, sortBy, myWatching) => {
+   const filterRepository = async (repo, sortBy, myWatching, pageNumber) => {
       const { data } = await axiosRequest.get(
-         `/repositories/sort?email=${user?.email}&repo=${repo}&sortBy=${sortBy}&myWatching=${myWatching}`
+         `/repositories/sort?email=${user?.email}&repo=${repo}&sortBy=${sortBy}&myWatching=${myWatching}&pageNumber=${pageNumber}`
       );
       return data;
    };

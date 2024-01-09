@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
+import Pagination from "../../Components/Pagination/Pagination";
 import useAPI from "../../Hooks/useAPI";
 import useAuth from "../../Hooks/useAuth";
 import RepoActionBar from "./RepoActionBar/RepoActionBar";
@@ -71,20 +72,30 @@ const Repositories = () => {
    const repo = searchParams.get("repo");
    const sortBy = searchParams.get("sortBy");
    const myWatching = searchParams.get("myWatching");
+   const pageNumber = searchParams.get("pageNumber");
 
    const {
       isPending,
       refetch: refetchFilter,
       data,
    } = useQuery({
-      queryKey: ["filteredRepo", user, myWatching, repo, searchParams, sortBy],
-      queryFn: () => filterRepository(repo, sortBy, myWatching),
+      queryKey: [
+         "filteredRepo",
+         user,
+         myWatching,
+         repo,
+         searchParams,
+         sortBy,
+         pageNumber,
+      ],
+      queryFn: () => filterRepository(repo, sortBy, myWatching, pageNumber),
    });
 
    useEffect(() => {
       setFilteredRepos(data?.response);
    }, [data]);
 
+   console.log(data);
    return (
       <div className={styles.repoMainWrapper}>
          <RepoActionBar
@@ -100,6 +111,9 @@ const Repositories = () => {
                   <PulseLoader color="#2563eb" />
                </div>
             )}
+            <div className="p-4">
+               <Pagination totalRepositories={data?.total} />
+            </div>
          </Card>
       </div>
    );
