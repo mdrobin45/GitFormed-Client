@@ -29,28 +29,46 @@ const RepoActionBar = ({ searchParams, setSearchParams }) => {
       <div className={styles.repoToolbarWrapper}>
          <div>
             <Select
+               selected={() => {
+                  const params = searchParams.get("repo");
+                  if (params === "all") {
+                     return "All Repositories";
+                  } else {
+                     return "My Repositories";
+                  }
+               }}
                onChange={(e) =>
                   setSearchParams((prev) => {
                      prev.set("repo", e);
                      return prev;
                   })
                }
-               variant="outlined"
-               label="Repositories to Show">
+               variant="outlined">
                <Option value="all">All Repositories</Option>
                <Option value={user?.email}>My Repositories</Option>
             </Select>
          </div>
          <div>
             <Select
+               selected={() => {
+                  const params = searchParams.get("sortBy");
+                  if (params === "latest") {
+                     return "Latest";
+                  }
+                  if (params === "alphabetical") {
+                     return "Alphabetical";
+                  }
+                  if (params === "watchers") {
+                     return "Watchers";
+                  }
+               }}
                onChange={(e) => {
                   setSearchParams((prev) => {
                      prev.set("sortBy", e);
                      return prev;
                   });
                }}
-               variant="outlined"
-               label="Sort By">
+               variant="outlined">
                <Option value="latest">Latest</Option>
                <Option value="alphabetical">Alphabetical</Option>
                <Option value="watchers">watchers</Option>
