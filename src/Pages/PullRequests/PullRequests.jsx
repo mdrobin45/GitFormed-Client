@@ -54,6 +54,7 @@ const PullRequests = () => {
                }
             });
          });
+         refetch();
          refetchPulls();
          setPullTitle("");
       },
