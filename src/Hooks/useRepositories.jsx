@@ -6,7 +6,7 @@ const useRepositories = () => {
    let {
       isPending,
       isFetching,
-      refetch: refetchAllRepo,
+      refetch,
       data: repositories = [],
    } = useQuery({
       queryKey: ["repos"],
@@ -15,7 +15,7 @@ const useRepositories = () => {
 
    repositories = repositories.toReversed();
 
-   return { repositories, isPending, refetchAllRepo, isFetching };
+   return { repositories, isPending, refetch, isFetching };
 };
 
 export default useRepositories;

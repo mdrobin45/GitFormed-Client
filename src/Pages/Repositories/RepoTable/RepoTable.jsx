@@ -4,14 +4,14 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import useAPI from "../../../Hooks/useAPI";
 import useAuth from "../../../Hooks/useAuth";
-import useRepositories from "../../../Hooks/useRepositories";
+import useFilterRepos from "../../../Hooks/useFilterRepos";
 import useUser from "../../../Hooks/useUser";
 import styles from "../styles.module.css";
 
 const TABLE_HEAD = ["Repository", "Username", "Watchers", "Created", "Action"];
 const RepoTable = ({ repositories = [] }) => {
    const { removeWatcher, updateRepoWatcher } = useAPI();
-   const { refetchAllRepo } = useRepositories();
+   const { refetchFilter } = useFilterRepos();
    const { dbUser } = useUser();
    const { user } = useAuth();
 
@@ -20,7 +20,7 @@ const RepoTable = ({ repositories = [] }) => {
       mutationKey: ["watchUpdate"],
       mutationFn: ({ userId, repoId }) => updateRepoWatcher(userId, repoId),
       onSuccess: () => {
-         refetchAllRepo();
+         refetchFilter();
       },
    });
 
@@ -29,7 +29,7 @@ const RepoTable = ({ repositories = [] }) => {
       mutationKey: ["removeWatcher"],
       mutationFn: ({ userId, repoId }) => removeWatcher(userId, repoId),
       onSuccess: () => {
-         refetchAllRepo();
+         refetchFilter();
       },
       onError: (e) => {
          console.log(e);

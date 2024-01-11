@@ -1,11 +1,8 @@
 import { Card } from "@material-tailwind/react";
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
 import Pagination from "../../Components/Pagination/Pagination";
-import useAPI from "../../Hooks/useAPI";
-import useAuth from "../../Hooks/useAuth";
+import useFilterRepos from "../../Hooks/useFilterRepos";
 import RepoActionBar from "./RepoActionBar/RepoActionBar";
 import RepoTable from "./RepoTable/RepoTable";
 import styles from "./styles.module.css";
@@ -63,33 +60,10 @@ import styles from "./styles.module.css";
 //    },
 // ];
 const Repositories = () => {
-   const { filterRepository } = useAPI();
-   const [searchParams, setSearchParams] = useSearchParams();
+   const { isPending, data, refetchFilter, setSearchParams, searchParams } =
+      useFilterRepos();
+
    const [filteredRepos, setFilteredRepos] = useState([]);
-   const { user } = useAuth();
-
-   // URL query params
-   const repo = searchParams.get("repo");
-   const sortBy = searchParams.get("sortBy");
-   const myWatching = searchParams.get("myWatching");
-   const pageNumber = searchParams.get("pageNumber");
-
-   const {
-      isPending,
-      refetch: refetchFilter,
-      data,
-   } = useQuery({
-      queryKey: [
-         "filteredRepo",
-         user,
-         myWatching,
-         repo,
-         searchParams,
-         sortBy,
-         pageNumber,
-      ],
-      queryFn: () => filterRepository(repo, sortBy, myWatching, pageNumber),
-   });
 
    useEffect(() => {
       setFilteredRepos(data?.response);
