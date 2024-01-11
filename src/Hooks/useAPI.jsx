@@ -101,9 +101,18 @@ const useAPI = () => {
       return data;
    };
 
+   // Pull notification
+   const pullNotification = async (repoId) => {
+      const { data } = await axiosRequest.get(
+         `/pull-request/notification?repoId=${repoId}`
+      );
+      return data;
+   };
+
    return {
       findUser,
       filterRepository,
+      pullNotification,
       userWatchingRepos,
       removeWatcher,
       updateRepoWatcher,

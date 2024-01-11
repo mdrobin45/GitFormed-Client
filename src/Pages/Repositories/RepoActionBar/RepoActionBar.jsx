@@ -14,6 +14,7 @@ import { useState } from "react";
 import { IoNotifications } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import useAuth from "../../../Hooks/useAuth";
+import useNotification from "../../../Hooks/useNotification";
 import NewRepoModal from "../NewRepoModal/NewRepoModal";
 import ProfileMenu from "../ProfileMenu";
 import styles from "../styles.module.css";
@@ -24,6 +25,7 @@ const RepoActionBar = ({ searchParams, setSearchParams, refetchFilter }) => {
    const [isMenuOpen, setIsMenuOpen] = useState(false);
    const closeMenu = () => setIsMenuOpen(false);
    const { user } = useAuth();
+   const { notification } = useNotification();
 
    return (
       <div className={styles.repoToolbarWrapper}>
@@ -127,7 +129,7 @@ const RepoActionBar = ({ searchParams, setSearchParams, refetchFilter }) => {
                         as="span"
                         variant="small"
                         className="font-normal">
-                        Add google analytics and change code
+                        {notification.msg}
                      </Typography>
                   </MenuItem>
                </MenuList>

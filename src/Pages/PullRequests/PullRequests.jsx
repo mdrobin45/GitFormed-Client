@@ -5,6 +5,7 @@ import { BsArrowReturnLeft } from "react-icons/bs";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
 import useAPI from "../../Hooks/useAPI";
+import useNotification from "../../Hooks/useNotification";
 import useUser from "../../Hooks/useUser";
 import styles from "../Repositories/styles.module.css";
 import PullReqTable from "./PullReqTable/PullReqTable";
@@ -15,6 +16,7 @@ const PullRequests = () => {
    const [searchParams] = useSearchParams();
    const repoUser = searchParams.get("username");
    const { createNewPull, getPullRequests } = useAPI();
+   const { handlePullNotification } = useNotification();
 
    const [pullTitle, setPullTitle] = useState("");
 
@@ -45,8 +47,9 @@ const PullRequests = () => {
    });
 
    // Handle submit
-   const handleSubmit = () => {
+   const handleSubmit = (handlePullNotification) => {
       mutate();
+      handlePullNotification(repoId);
    };
    return (
       <div className={styles.repoMainWrapper}>
@@ -68,7 +71,9 @@ const PullRequests = () => {
                   }}
                />
                <Button
-                  onClick={handleSubmit}
+                  onClick={() => {
+                     handleSubmit(handlePullNotification);
+                  }}
                   size="sm"
                   className="!absolute flex items-start gap-2 right-1 top-1 rounded bg-primary font-normal tracking-wider">
                   Create pull request
