@@ -15,7 +15,7 @@ const PullRequests = () => {
    const { dbUser } = useUser();
    const [searchParams] = useSearchParams();
    const repoUser = searchParams.get("username");
-   const { createNewPull, getPullRequests } = useAPI();
+   const { createNewPull, getPullRequests, saveNotification } = useAPI();
    const { handlePullNotification } = useNotification();
 
    const [pullTitle, setPullTitle] = useState("");
@@ -40,16 +40,25 @@ const PullRequests = () => {
    const { mutate, isPending: pendingRequest } = useMutation({
       mutationKey: ["createPull"],
       mutationFn: () => createNewPull(pullInfo),
-      onSuccess: () => {
+      onSuccess: (data) => {
+         const repoWatchers = data?.repoWatchers;
+         const userId = dbUser?._id;
+
+         if (repoWatchers.includes(userId)) {
+            const notifyDetails = {
+               repoId,
+               userId: dbUser?._id,
+            };
+            saveNotification(notifyDetails).then((res) => console.log(res));
+         }
          refetchPulls();
          setPullTitle("");
       },
    });
 
    // Handle submit
-   const handleSubmit = (handlePullNotification) => {
+   const handleSubmit = () => {
       mutate();
-      handlePullNotification(repoId);
    };
    return (
       <div className={styles.repoMainWrapper}>

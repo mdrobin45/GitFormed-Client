@@ -102,17 +102,17 @@ const useAPI = () => {
    };
 
    // Pull notification
-   const pullNotification = async (repoId) => {
-      const { data } = await axiosRequest.get(
-         `/pull-request/notification?repoId=${repoId}`
+   const saveNotification = async (notifyDetails) => {
+      const { data } = await axiosRequest.post(
+         `/pull-request/notification`,
+         notifyDetails
       );
       return data;
    };
-
    return {
       findUser,
       filterRepository,
-      pullNotification,
+      saveNotification,
       userWatchingRepos,
       removeWatcher,
       updateRepoWatcher,
