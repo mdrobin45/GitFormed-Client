@@ -16,6 +16,7 @@ const useNotification = () => {
 
    useEffect(() => {
       refetch();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [user, dbUser?._id]);
    return { notifications, refetch };
 };
