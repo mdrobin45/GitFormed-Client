@@ -109,11 +109,20 @@ const useAPI = () => {
       );
       return data;
    };
+
+   // Get notification
+   const getNotifications = async (userId) => {
+      const { data } = await axiosRequest.get(
+         `/pull-request/getNotification?userId=${userId}`
+      );
+      return data;
+   };
    return {
       findUser,
       filterRepository,
       saveNotification,
       userWatchingRepos,
+      getNotifications,
       removeWatcher,
       updateRepoWatcher,
       getPullRequests,

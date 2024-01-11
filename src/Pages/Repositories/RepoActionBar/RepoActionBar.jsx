@@ -25,7 +25,9 @@ const RepoActionBar = ({ searchParams, setSearchParams, refetchFilter }) => {
    const [isMenuOpen, setIsMenuOpen] = useState(false);
    const closeMenu = () => setIsMenuOpen(false);
    const { user } = useAuth();
-   const { notification } = useNotification();
+   const { notifications } = useNotification();
+   let notificationArray = notifications?.response || [];
+   notificationArray = notificationArray.toReversed();
 
    return (
       <div className={styles.repoToolbarWrapper}>
@@ -108,30 +110,25 @@ const RepoActionBar = ({ searchParams, setSearchParams, refetchFilter }) => {
                placement="bottom-end">
                <MenuHandler>
                   <button>
-                     <Badge content="5">
+                     <Badge content={notificationArray.length}>
                         <IoNotifications className="text-2xl text-gray-900" />
                      </Badge>
                   </button>
                </MenuHandler>
-               <MenuList className="p-1">
-                  <MenuItem
-                     onClick={closeMenu}
-                     className="flex items-center gap-2 rounded">
-                     <Typography
-                        as="span"
-                        variant="small"
-                        className="font-normal">
-                        Profile icon changed
-                     </Typography>
-                  </MenuItem>
-                  <MenuItem className="flex items-center gap-2 rounded">
-                     <Typography
-                        as="span"
-                        variant="small"
-                        className="font-normal">
-                        {notification.msg}
-                     </Typography>
-                  </MenuItem>
+               <MenuList className="p-1 overflow-y-scroll h-52">
+                  {notificationArray.map((item) => (
+                     <MenuItem
+                        key={item._id}
+                        onClick={closeMenu}
+                        className="flex items-center gap-2 rounded">
+                        <Typography
+                           as="span"
+                           variant="small"
+                           className="font-normal">
+                           {item.message}
+                        </Typography>
+                     </MenuItem>
+                  ))}
                </MenuList>
             </Menu>
          </div>

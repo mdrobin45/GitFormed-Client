@@ -1,15 +1,23 @@
-import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import useAPI from "./useAPI";
+import useAuth from "./useAuth";
+import useUser from "./useUser";
 
 const useNotification = () => {
-   const { pullNotification } = useAPI();
-   const [notification, setNotification] = useState("");
+   const { getNotifications } = useAPI();
+   const { user } = useAuth();
+   const { dbUser } = useUser();
 
-   const handlePullNotification = (repoId) => {
-      pullNotification(repoId).then((res) => setNotification(res));
-   };
+   const { refetch, data: notifications = [] } = useQuery({
+      queryKey: ["getNotify", user],
+      queryFn: () => getNotifications(dbUser?._id),
+   });
 
-   return { handlePullNotification, notification };
+   useEffect(() => {
+      refetch();
+   }, [user, dbUser?._id]);
+   return { notifications, refetch };
 };
 
 export default useNotification;

@@ -16,7 +16,7 @@ const PullRequests = () => {
    const [searchParams] = useSearchParams();
    const repoUser = searchParams.get("username");
    const { createNewPull, getPullRequests, saveNotification } = useAPI();
-   const { handlePullNotification } = useNotification();
+   const { refetch } = useNotification();
 
    const [pullTitle, setPullTitle] = useState("");
 
@@ -42,15 +42,18 @@ const PullRequests = () => {
       mutationFn: () => createNewPull(pullInfo),
       onSuccess: (data) => {
          const repoWatchers = data?.repoWatchers;
-         const userId = dbUser?._id;
 
-         if (repoWatchers.includes(userId)) {
+         repoWatchers.map((watcherId) => {
             const notifyDetails = {
                repoId,
-               userId: dbUser?._id,
+               userId: watcherId,
             };
-            saveNotification(notifyDetails).then((res) => console.log(res));
-         }
+            saveNotification(notifyDetails).then((res) => {
+               if (res) {
+                  refetch();
+               }
+            });
+         });
          refetchPulls();
          setPullTitle("");
       },
@@ -81,7 +84,7 @@ const PullRequests = () => {
                />
                <Button
                   onClick={() => {
-                     handleSubmit(handlePullNotification);
+                     handleSubmit();
                   }}
                   size="sm"
                   className="!absolute flex items-start gap-2 right-1 top-1 rounded bg-primary font-normal tracking-wider">
