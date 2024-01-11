@@ -28,8 +28,7 @@ const RepoTable = ({ repositories = [] }) => {
    const removeWatcherFun = useMutation({
       mutationKey: ["removeWatcher"],
       mutationFn: ({ userId, repoId }) => removeWatcher(userId, repoId),
-      onSuccess: (e) => {
-         console.log(e);
+      onSuccess: () => {
          refetchAllRepo();
       },
       onError: (e) => {
@@ -115,8 +114,7 @@ const RepoTable = ({ repositories = [] }) => {
                                  </Button>
                               </Link>
                               <div className="flex items-center">
-                                 {repo?.repoWatchers.indexOf(dbUser?._id) ===
-                                 0 ? (
+                                 {repo?.repoWatchers.includes(dbUser?._id) ? (
                                     <Checkbox
                                        defaultChecked
                                        onChange={(e) => {
