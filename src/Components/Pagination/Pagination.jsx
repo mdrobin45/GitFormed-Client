@@ -1,11 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 
-const Pagination = ({
-   // pageNumbers,
-   // setCurrentPage,
-   // currentPage,
-   totalRepositories,
-}) => {
+const Pagination = ({ totalRepositories }) => {
    const [searchParams, setSearchParams] = useSearchParams();
    const minPages = [1, 2, 3];
    const totalPage = Math.ceil(totalRepositories / 10);
@@ -15,7 +10,7 @@ const Pagination = ({
       pageNumbers.push(i);
    }
 
-   const currentPage = parseFloat(searchParams.get("pageNumber"));
+   const currentPage = parseFloat(searchParams.get("pageNumber")) || 1;
    return (
       <nav aria-label="Page navigation example">
          <ul className="inline-flex -space-x-px text-base h-10">

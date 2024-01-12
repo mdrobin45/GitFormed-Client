@@ -51,7 +51,10 @@ const RepoActionBar = ({ searchParams, setSearchParams, refetchFilter }) => {
                }
                variant="outlined">
                <Option value="all">All Repositories</Option>
-               <Option value={user?.email}>My Repositories</Option>
+
+               <Option disabled={user ? false : true} value={user?.email}>
+                  My Repositories
+               </Option>
             </Select>
          </div>
          <div>
@@ -79,8 +82,10 @@ const RepoActionBar = ({ searchParams, setSearchParams, refetchFilter }) => {
                <Option value="watchers">watchers</Option>
             </Select>
          </div>
+
          <div className="flex items-center">
             <Checkbox
+               disabled={user ? false : true}
                checked={searchParams.get("myWatching") === "true"}
                onChange={(e) => {
                   setSearchParams((prev) => {
@@ -91,10 +96,16 @@ const RepoActionBar = ({ searchParams, setSearchParams, refetchFilter }) => {
                id="myWatch"
                color="blue"
             />
-            <label htmlFor="myWatch">My Watching Repositories</label>
+            <label className={user ? "" : "opacity-30"} htmlFor="myWatch">
+               My Watching Repositories
+            </label>
          </div>
+
          <div>
-            <Button onClick={handleOpen} className={styles.newRepoBtn}>
+            <Button
+               disabled={user ? false : true}
+               onClick={handleOpen}
+               className={styles.newRepoBtn}>
                New Repository
             </Button>
             <NewRepoModal
@@ -109,27 +120,35 @@ const RepoActionBar = ({ searchParams, setSearchParams, refetchFilter }) => {
                handler={setIsMenuOpen}
                placement="bottom-end">
                <MenuHandler>
-                  <button>
+                  <button disabled={user ? false : true}>
                      <Badge content={notificationArray.length}>
-                        <IoNotifications className="text-2xl text-gray-900" />
+                        <IoNotifications
+                           className={`text-2xl text-gray-900 ${
+                              user ? "" : "opacity-30"
+                           }`}
+                        />
                      </Badge>
                   </button>
                </MenuHandler>
-               <MenuList className="p-1 overflow-y-scroll h-52">
-                  {notificationArray.map((item) => (
-                     <MenuItem
-                        key={item._id}
-                        onClick={closeMenu}
-                        className="flex items-center gap-2 rounded">
-                        <Typography
-                           as="span"
-                           variant="small"
-                           className="font-normal">
-                           {item.message}
-                        </Typography>
-                     </MenuItem>
-                  ))}
-               </MenuList>
+               {notificationArray.length ? (
+                  <MenuList className="p-1 overflow-y-scroll h-52">
+                     {notificationArray.map((item) => (
+                        <MenuItem
+                           key={item._id}
+                           onClick={closeMenu}
+                           className="flex items-center gap-2 rounded">
+                           <Typography
+                              as="span"
+                              variant="small"
+                              className="font-normal">
+                              {item.message}
+                           </Typography>
+                        </MenuItem>
+                     ))}
+                  </MenuList>
+               ) : (
+                  ""
+               )}
             </Menu>
          </div>
          <div>
