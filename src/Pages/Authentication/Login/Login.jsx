@@ -1,7 +1,6 @@
 import { useState } from "react";
 import AuthFormFooter from "../../../Components/AuthFormElements/AuthFormFooter/AuthFormFooter";
 import AuthFormHeader from "../../../Components/AuthFormElements/AuthFormHeader/AuthFormHeader";
-import GoogleLogin from "../../../Components/AuthFormElements/SocialLogin/GoogleLogin";
 import SubmitButton from "../../../Components/AuthFormElements/SubmitButton";
 import styles from "../styles.module.css";
 import useLogin from "./useLogin";
@@ -99,7 +98,6 @@ const Login = () => {
                   </div>
                </div>
                <SubmitButton btnText="Login" />
-               <GoogleLogin />
             </form>
             <AuthFormFooter loginPage={true} />
          </div>
