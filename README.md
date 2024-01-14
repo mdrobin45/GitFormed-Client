@@ -49,7 +49,7 @@ For easier to setup environment variables, you can just rename `.env.development
 Open project folder in terminal and run following command
 
 ```bash
-  npm run dev
+npm run dev
 ```
 
 ## Used Technology
