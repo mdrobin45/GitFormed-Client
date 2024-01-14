@@ -1,13 +1,13 @@
-
 ## GitFormed Frontend
 
 This is the frontend of `GitFormed` project. You will find the backend [here](https://github.com/mdrobin45/GitFormed-Server)
+
 ## Run Locally
 
 Clone the project
 
 ```bash
-https://github.com/mdrobin45/GitFormed-Client.git
+git clone https://github.com/mdrobin45/GitFormed-Client.git
 ```
 
 Go to the project directory
@@ -21,8 +21,6 @@ Install dependencies
 ```bash
 npm install
 ```
-
-
 
 #### Environment Variables
 
@@ -47,14 +45,13 @@ For easier to setup environment variables, you can just rename `.env.development
 **Please Note:** You may need to edit `VITE_SERVER_API` from `.env.development` file base on your port of running server.
 
 #### Start Server
-  Open project folder in terminal and run following command
+
+Open project folder in terminal and run following command
+
 ```bash
   npm run dev
 ```
+
 ## Used Technology
 
-
-
 **Technologies:** React, React Hook Form, Firebase, React Router Dom v6
-
-
